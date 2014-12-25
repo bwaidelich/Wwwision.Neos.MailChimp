@@ -1,0 +1,117 @@
+<f:layout name="BackendSubModule" />
+
+<f:section name="subtitle">
+	<h2>Details for list: "{list.name}"</h2>
+</f:section>
+<f:section name="content">
+	<div class="neos-row-fluid">
+		<legend>List Data</legend>
+
+		<table class="neos-info-table">
+			<tbody>
+				<tr>
+					<th>Creation date</th>
+					<td>{list.date_created}</td>
+				</tr>
+				<tr>
+					<th>Default sender</th>
+					<td>{list.default_from_name} &lt;{list.default_from_email}&gt;</td>
+				</tr>
+				<tr>
+					<th>Subscribe URL</th>
+					<td><f:link.external uri="{list.subscribe_url_short}" target="_blank">{list.subscribe_url_short}</f:link.external></td>
+				</tr>
+				<tr>
+					<th>Number of members</th>
+					<td>{list.stats.member_count}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<f:widget.paginate objects="{members}" as="paginatedMembers">
+			<table class="neos-table">
+				<thead>
+					<tr>
+						<th>Email Address</th>
+						<th>Subscribed since</th>
+						<th>Member rating</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<f:for each="{paginatedMembers}" as="member">
+					<tr>
+						<td><i class="icon-user icon-user"></i> {member.email}</td>
+						<td>{member.timestamp}</td>
+						<td>{member.member_rating}</td>
+						<td class="neos-action">
+							<div class="neos-pull-right">
+								<button class="neos-button neos-button-danger" title="Click to unsubscribe this member" data-toggle="modal" href="#unsubscribe-modal-{member.id}">
+									<i class="icon-trash icon-white"></i>
+								</button>
+								<div class="neos-hide" id="unsubscribe-modal-{member.id}">
+									<div class="neos-modal">
+										<div class="neos-modal-header">
+											<button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+											<div class="neos-header">Do you really want to unsubscribe the member "{member.email}" from the list "{list.name}"?</div>
+											<div>
+												<div class="neos-subheader">
+													<p>This will remove the member from this list.<br />A goodbye email will be sent to the member.</p>
+												</div>
+											</div>
+										</div>
+										<div class="neos-modal-footer">
+											<a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+											<f:form action="unsubscribe" arguments="{listId: list.id}" class="neos-inline">
+												<f:form.hidden name="emailAddress" value="{member.email}" />
+												<button type="submit" class="neos-button neos-button-danger" title="Unsubscribe member">
+													Yes, unsubscribe the member
+												</button>
+											</f:form>
+										</div>
+									</div>
+									<div class="neos-modal-backdrop neos-in"></div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</f:for>
+			</table>
+		</f:widget.paginate>
+	</div>
+	<div class="neos-footer">
+		<f:link.action action="index" class="neos-button">Back</f:link.action>
+		<button class="neos-button neos-button-primary" title="Click here to delete this user" data-toggle="modal" href="#subscribe-modal">
+			<i class="icon-plus icon-white"></i> Subscribe new member
+		</button>
+		<div class="neos-hide" id="subscribe-modal">
+			<div class="neos-modal">
+				<div class="neos-modal-header">
+					<button type="button" class="neos-close" data-dismiss="modal"></button>
+					<div class="neos-header">Subscribe a new member to the list "{list.name}"</div>
+					<div>
+						<div class="neos-subheader">
+							<p>Add a user to this list<br />NOTE: This will send a confirmation email to the specified email address so that the recipient can opt-in!</p>
+						</div>
+					</div>
+				</div>
+				<div class="neos-modal-body">
+					<f:form action="subscribe" arguments="{listId: list.id}" class="neos-form-horizontal" id="subscribe-form">
+						<div class="neos-control-group">
+							<label class="neos-control-label" for="email-address">Email address</label>
+							<div class="neos-controls neos-controls-row">
+								<f:form.textfield name="emailAddress" type="email" required="true" id="email-address" class="neos-span5" />
+							</div>
+						</div>
+					</f:form>
+				</div>
+				<div class="neos-modal-footer">
+					<a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+					<button type="submit" class="neos-button neos-button-primary" title="Subscribe member" form="subscribe-form">
+						Subscribe
+					</button>
+				</div>
+			</div>
+			<div class="neos-modal-backdrop neos-in"></div>
+		</div>
+	</div>
+</f:section>

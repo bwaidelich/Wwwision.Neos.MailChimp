@@ -1,0 +1,5 @@
+# Set the configured MailChimp API key when instanciating the MailChimpService singleton
+Wwwision\Neos\MailChimp\Domain\Service\MailChimpService:
+  arguments:
+    1:
+      setting: 'Wwwision.Neos.MailChimp.apiKey'

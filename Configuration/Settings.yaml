@@ -1,0 +1,48 @@
+Wwwision:
+  Neos:
+    MailChimp:
+       # set this to a valid MailChimp API key!
+      apiKey: ''
+
+TYPO3:
+  Flow:
+    object:
+      excludeClasses:
+         # disable reflection for the mailchimp package
+        'mailchimp.mailchimp': ['.*']
+
+  Form:
+    presets:
+      'default':
+        finisherPresets:
+           # register a custom Form finisher that subscribes emails to a given MailChimp list
+          'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
+            implementationClassName: 'Wwwision\Neos\MailChimp\Form\Finishers\MailChimpSubscriptionFinisher'
+
+        formElementTypes:
+          'TYPO3.Form:Form':
+            formBuilder:
+              editors:
+                finishers:
+                  availableFinishers:
+                     # make the new finisher available in the FormBuilder
+                    'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
+                      label: 'MailChimp Finisher'
+                      templateName: 'Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher'
+
+  FormBuilder:
+    handlebarsTemplates:
+       # register template for the custom FormBuilder editor
+      'Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher': resource://Wwwision.Neos.MailChimp/Private/FormBuilderTemplates/MailChimpSubscriptionFinisher.html
+
+  Neos:
+    modules:
+      'administration':
+        submodules:
+           # configure TYPO3 Neos module for the "MailChimp" administration
+          'mailchimp':
+            label: 'MailChimp'
+            controller: 'Wwwision\Neos\MailChimp\Controller\Module\MailChimpController'
+            description: 'The MailChimp module provides you with a simple overview of your MailChimp subscribers and allows for (un)subscribing members'
+            icon: 'icon-bullhorn'
+            resource: 'Wwwision_Neos_MailChimp_Backend_Module_MailChimp'

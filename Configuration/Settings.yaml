@@ -43,6 +43,6 @@ TYPO3:
           'mailchimp':
             label: 'MailChimp'
             controller: 'Wwwision\Neos\MailChimp\Controller\Module\MailChimpController'
-            description: 'The MailChimp module provides you with a simple overview of your MailChimp subscribers and allows for (un)subscribing members'
+            description: 'This module provides you with a simple overview of your MailChimp® lists and allows for (un)subscribing members'
             icon: 'icon-bullhorn'
             resource: 'Wwwision_Neos_MailChimp_Backend_Module_MailChimp'

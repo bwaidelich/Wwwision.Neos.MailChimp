@@ -84,7 +84,7 @@ class MailChimpService {
 	 * @return void
 	 */
 	public function unsubscribe($listId, $emailAddress) {
-		$this->mailChimpClient->lists->subscribe($listId, array('email' => $emailAddress));
+		$this->mailChimpClient->lists->unsubscribe($listId, array('email' => $emailAddress));
 	}
 
 }

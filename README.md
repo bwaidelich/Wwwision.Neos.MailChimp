@@ -105,7 +105,7 @@ finishers:
     -
         identifier: 'TYPO3.Form:Confirmation'
         options:
-            message: 'Thank you, your subscription was successful. Please check your email a.'
+            message: 'Thank you, your subscription was successful. Please check your email.'
 renderingOptions:
     submitButtonLabel: '
 ```

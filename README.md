@@ -1,7 +1,7 @@
 Wwwision.Neos.MailChimp
 =======================
 
-TYPO3 Flow package that integrates [MailChimp](http://mailchimp.com/)® to your TYPO3 Neos site.
+TYPO3 Flow package that integrates [MailChimp](http://mailchimp.com/)® to your *TYPO3 Neos* site or *TYPO3 Flow* application.
 
 Features
 --------
@@ -9,7 +9,7 @@ Features
 This package comes with two main features:
 
 1. A *MailChimp® subscription finisher* for the [TYPO3 Flow Form Framework](http://flow.typo3.org/documentation/guides/forms)
-2. A simple TYPO3 Neos module that allows administrators to manage MailChimp® lists and recipients
+2. A simple *TYPO3 Neos* module that allows administrators to manage MailChimp® lists and recipients
 
 Usage
 -----
@@ -30,7 +30,9 @@ Wwwision:
       apiKey: '<VALID_MAILCHIMP_API_KEY>'
 ```
 
-Done. You can now log in to the TYPO3 Neos backend (as administrator) and manage your newsletter lists and recipients in the new Module *administration/mailchimp* (Make sure to flush the browser caches if the module should not appear in the menu).
+**Note:** The API key can be obtained from `mailchimp.com > Account > Extras > API Key`
+
+Done. You can now log-in to the TYPO3 Neos backend (as administrator) and manage your newsletter lists and recipients in the new Module `administration/mailchimp` (Make sure to flush the browser caches if the module should not appear in the menu).
 
 TYPO3 Neos Module
 -----------------
@@ -101,7 +103,7 @@ finishers:
     -
         identifier: 'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher'
         options:
-            listId: 'd2a96c360a'
+            listId: '<MAILCHIMP-LIST-ID>'
     -
         identifier: 'TYPO3.Form:Confirmation'
         options:
@@ -110,10 +112,12 @@ renderingOptions:
     submitButtonLabel: '
 ```
 
-*Note:* The Form finisher can of course be used without TYPO3 Neos (i.e. for Newsletter-subscriptions within plain TYPO3 Flow applications).
+**Note:** Replace "\<MAILCHIMP-LIST-ID\>" with a valid list identifier that can be obtained from `mailchimp.com > Lists > <YOUR-LIST> > Settings > List name & defaults`. A list ID usually contains letters and numbers such as "d2a96c360f".
 
-Worth knowing
--------------
+The Form finisher can of course be used without TYPO3 Neos (i.e. for Newsletter-subscriptions within plain TYPO3 Flow applications).
+
+Trivia
+------
 
 This package demonstrates...
 

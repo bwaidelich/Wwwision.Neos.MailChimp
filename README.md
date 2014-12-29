@@ -9,7 +9,7 @@ Features
 This package comes with two main features:
 
 1. A *MailChimp® subscription finisher* for the [TYPO3 Flow Form Framework](http://flow.typo3.org/documentation/guides/forms)
-2. A simple *TYPO3 Neos* module that allows administrators to manage MailChimp® lists and recipients
+2. A simple *TYPO3 Neos* module that allows Neos administrators to manage MailChimp® lists and recipients
 
 Usage
 -----
@@ -55,7 +55,6 @@ This package also comes with a simple form finisher that allows for creation of 
 It also adds the corresponding *FormBuilder* configuration so that the finisher can be used directly in the visual editor.
 
 Alternatively you can save the following snippet to `Data/Forms/newsletter.yaml` to create a simple newsletter subscription form:
-
 
 ```yaml
 type: 'TYPO3.Form:Form'
@@ -126,6 +125,8 @@ This package demonstrates...
 ...how to create & configure a form finishers so that it can be used in the FormBuilder
 
 ...how to make use of [Objects.yaml](http://docs.typo3.org/flow/TYPO3FlowDocumentation/TheDefinitiveGuide/PartIII/ObjectManagement.html#sect-configuring-objects) to initialize custom API clients
+
+...how to make arbitrary result sets coubtable and "paginatable" using a `CallbackQueryResult` object
 
 License
 -------

@@ -19,6 +19,10 @@ TYPO3:
           'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
             implementationClassName: 'Wwwision\Neos\MailChimp\Form\Finishers\MailChimpSubscriptionFinisher'
 
+        validatorPresets:
+          'Wwwision.Neos.MailChimp:UniqueSubscription':
+            implementationClassName: 'Wwwision\Neos\MailChimp\Validation\Validator\UniqueSubscriptionValidator'
+
         formElementTypes:
           'TYPO3.Form:Form':
             formBuilder:

@@ -72,6 +72,29 @@ class MailChimpService {
 	/**
 	 * @param string $listId
 	 * @param string $emailAddress
+	 * @return boolean
+	 */
+	public function isMember($listId, $emailAddress) {
+		try {
+			$members = $this->getMemberInfo($listId, $emailAddress);
+			return $members['success_count'] > 0;
+		} catch (\Exception $exception) {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * @param string $listId
+	 * @param string $emailAddress
+	 * @return array
+	 */
+	public function getMemberInfo($listId, $emailAddress) {
+		return $this->mailChimpClient->lists->memberInfo($listId, array(array('email' => $emailAddress)));
+	}
+
+	/**
+	 * @param string $listId
+	 * @param string $emailAddress
 	 * @return void
 	 */
 	public function subscribe($listId, $emailAddress) {

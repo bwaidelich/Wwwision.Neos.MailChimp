@@ -95,10 +95,10 @@ renderables:
                         identifier: 'TYPO3.Flow:NotEmpty'
                     -
                         identifier: 'TYPO3.Flow:EmailAddress'
-					-
-						identifier: 'Wwwision.Neos.MailChimp:UniqueSubscription'
-						options:
-						  listId: '<MAILCHIMP-LIST-ID>'
+                    -
+                        identifier: 'Wwwision.Neos.MailChimp:UniqueSubscription'
+                        options:
+                          listId: '<MAILCHIMP-LIST-ID>'
                 properties:
                     placeholder: 'Your email address'
                 defaultValue: ''

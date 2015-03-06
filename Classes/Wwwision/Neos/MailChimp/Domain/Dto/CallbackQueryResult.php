@@ -38,6 +38,13 @@ class CallbackQueryResult implements QueryResultInterface {
 	protected function initialize() {
 		if ($this->results === NULL) {
 			$this->results = $this->query->getResult();
+			if($this->query->getLimit()) {
+				$this->results = array_slice(
+					$this->results,
+					(int) $this->query->getOffset(),
+					$this->query->getLimit()
+				);
+			}
 		}
 	}
 

@@ -19,7 +19,9 @@ The easiest way to install this package is to add
 ```json
 "wwwision/neos-mailchimp": "~1.0"
 ```
-To your Site package (or whichever package that uses the module or service)
+To your Site package (or whichever package that uses the module or service) and install it and it's dependencies via `composer install`.
+
+**Note:** If you get an error `Class 'mailchimp' not found`, try to optimize the composer autoloading classmap with `composer install --optimize-autoloader`. That should resolve the issue.
 
 After successful installation make sure to configure the MailChimp® API key in the `Settings.yaml`of your Site package:
 

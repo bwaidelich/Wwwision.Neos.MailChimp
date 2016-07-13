@@ -3,13 +3,18 @@
 #                                                                        #
 
 
-# For TYPO3 Neos all controller actions are protected by default. This allows users with the Administrator role to call the module controller actions
+# For Neos all controller actions are protected by default. This allows users with the Administrator role to call the module controller actions
 
-resources:
-  methods:
-    'Wwwision_Neos_MailChimp_Backend_Module_MailChimp': 'method(Wwwision\Neos\MailChimp\Controller\Module\MailChimpController->(.*)Action())'
+privilegeTargets:
 
-acls:
+  TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+    'Wwwision.Neos.MailChimp:BackendModuleMailChimp':
+      matcher: 'method(Wwwision\Neos\MailChimp\Controller\Module\MailChimpController->(.*)Action())'
+
+roles:
+
   'TYPO3.Neos:Administrator':
-    methods:
-      'Wwwision_Neos_MailChimp_Backend_Module_MailChimp': GRANT
+    privileges:
+      -
+        privilegeTarget: 'Wwwision.Neos.MailChimp:BackendModuleMailChimp'
+        permission: GRANT

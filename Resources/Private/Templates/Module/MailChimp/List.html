@@ -28,7 +28,7 @@
 			</tbody>
 		</table>
 
-		<f:widget.paginate objects="{members}" as="paginatedMembers">
+		<f:widget.paginate objects="{members}" as="paginatedMembers" configuration="{maximumNumberOfLinks: 10}">
 			<table class="neos-table">
 				<thead>
 					<tr>
@@ -99,7 +99,7 @@
 						<div class="neos-control-group">
 							<label class="neos-control-label" for="email-address">Email address</label>
 							<div class="neos-controls neos-controls-row">
-								<f:form.textfield name="emailAddress" type="email" required="true" id="email-address" class="neos-span5" />
+								<f:form.textfield name="emailAddress" type="email" required="true" id="email-address" class="neos-span3" />
 							</div>
 						</div>
 					</f:form>

@@ -17,7 +17,7 @@ Usage
 Install this package and make sure to resolve all dependencies (This requires the official [PHP API client](https://packagist.org/packages/mailchimp/mailchimp).
 The easiest way to install this package is to add
 ```json
-"wwwision/neos-mailchimp": "~1.0"
+"wwwision/neos-mailchimp": "^2.0"
 ```
 To your Site package (or whichever package that uses the module or service) and install it and it's dependencies via `composer install`.
 

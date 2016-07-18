@@ -12,6 +12,10 @@ TYPO3:
         'mailchimp.mailchimp': ['.*']
 
   Form:
+    supertypeResolver:
+      hiddenProperties:
+        # don't complain about "formBuilder" settings, if the TYPO3.FormBuilder package is not installed
+        formBuilder: formBuilder
     presets:
       'default':
         finisherPresets:

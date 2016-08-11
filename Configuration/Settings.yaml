@@ -5,11 +5,6 @@ Wwwision:
       apiKey: ''
 
 TYPO3:
-  Flow:
-    object:
-      excludeClasses:
-         # disable reflection for the mailchimp package
-        'mailchimp.mailchimp': ['.*']
 
   Form:
     supertypeResolver:

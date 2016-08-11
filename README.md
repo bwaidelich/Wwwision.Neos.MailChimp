@@ -70,7 +70,7 @@ renderables:
         renderables:
             -
                 type: 'TYPO3.Form:SingleLineText'
-                identifier: FNAME
+                identifier: 'firstName'
                 label: 'First name'
                 validators:
                     -
@@ -80,7 +80,7 @@ renderables:
                 defaultValue: ''
             -
                 type: 'TYPO3.Form:SingleLineText'
-                identifier: LNAME
+                identifier: 'lastName'
                 label: 'Last name'
                 validators:
                     -
@@ -109,6 +109,9 @@ finishers:
         identifier: 'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher'
         options:
             listId: '<MAILCHIMP-LIST-ID>'
+            additionalFields:
+              'FNAME': '{firstName}'
+              'LNAME': '{lastName}'
     -
         identifier: 'TYPO3.Form:Confirmation'
         options:

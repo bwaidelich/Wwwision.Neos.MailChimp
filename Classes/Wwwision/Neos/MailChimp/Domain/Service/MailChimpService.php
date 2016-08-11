@@ -97,12 +97,13 @@ class MailChimpService
     /**
      * @param string $listId
      * @param string $emailAddress
+     * @param array $additionalFields
      * @return void
      */
-    public function subscribe($listId, $emailAddress)
+    public function subscribe($listId, $emailAddress, array $additionalFields = null)
     {
         /** @noinspection PhpParamsInspection */
-        $this->mailChimpClient->lists->subscribe($listId, ['email' => $emailAddress]);
+        $this->mailChimpClient->lists->subscribe($listId, ['email' => $emailAddress], $additionalFields);
     }
 
     /**

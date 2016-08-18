@@ -1,7 +1,7 @@
 Wwwision.Neos.MailChimp
 =======================
 
-Package that integrates [MailChimp](http://mailchimp.com/)® to your [Neos](https://www.neos.io) site or [Flow]((https://flow.neos.io) application.
+Package that integrates [MailChimp](http://mailchimp.com/)® to your [Neos](https://www.neos.io) site or [Flow](https://flow.neos.io) application.
 
 Features
 --------

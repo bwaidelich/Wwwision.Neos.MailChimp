@@ -78,9 +78,12 @@ class MailChimpService
     {
         try {
             $members = $this->getMemberInfo($listId, $emailAddress);
-            return $members['success_count'] > 0;
+            if ($members['success_count'] === 0) {
+                return false;
+            }
+            return isset($members['data'][0]['status']) && $members['data'][0]['status'] === 'subscribed';
         } catch (\Exception $exception) {
-            return FALSE;
+            return false;
         }
     }
 

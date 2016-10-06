@@ -122,6 +122,25 @@ renderingOptions:
 
 **Note:** Replace "\<MAILCHIMP-LIST-ID\>" with a valid list identifier that can be obtained from `mailchimp.com > Lists > <YOUR-LIST> > Settings > List name & defaults`. A list ID usually contains letters and numbers such as "d2a96c360f".
 
+
+The `additionalFields` option can be nested, for example in order to specify interest groups:
+
+```yaml
+# ...
+finishers:
+    -
+        identifier: 'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher'
+        options:
+            listId: '<MAILCHIMP-LIST-ID>'
+            additionalFields:
+              'FNAME': '{firstName}'
+              'LNAME': '{lastName}'
+              'groupings':
+                  -
+                      id: '12345'
+                      groups: ['Some group', 'Some other group']
+```
+
 The Form finisher can of course be used without Neos (i.e. for Newsletter-subscriptions within plain Flow applications).
 
 Trivia

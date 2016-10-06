@@ -40,16 +40,27 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
         $listId = $this->parseOption('listId');
         $emailAddress = $this->parseOption('emailAddress');
 
-        $additionalFields = array_map(function($field) {
-            return preg_replace_callback('/{([^}]+)}/', function ($match) {
-                return ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), $match[1]);
-            }, $field);
-        }, $this->parseOption('additionalFields'));
-
+        $additionalFields = $this->replacePlaceholders($this->parseOption('additionalFields'));
         try {
             $this->mailChimpService->subscribe($listId, $emailAddress, $additionalFields);
         } catch (\Mailchimp_Error $exception) {
             throw new FinisherException(sprintf('Failed to subscribe "%s" to list "%s"!', $emailAddress, $listId), 1418060900, $exception);
         }
+    }
+
+    /**
+     * Recursively replaces "{<var>}" with variables from the form runtime
+     *
+     * @param array|mixed $field
+     * @return array|mixed
+     */
+    protected function replacePlaceholders($field)
+    {
+        if (is_array($field)) {
+            return array_map([$this, 'replacePlaceholders'], $field);
+        }
+        return preg_replace_callback('/{([^}]+)}/', function ($match) {
+            return ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), $match[1]);
+        }, $field);
     }
 }

@@ -14,14 +14,12 @@ This package comes with two main features:
 Usage
 -----
 
-Install this package and make sure to resolve all dependencies (This requires the official [PHP API client](https://packagist.org/packages/mailchimp/mailchimp).
+Install this package and make sure to resolve all dependencies.
 The easiest way to install this package is to add
 ```json
-"wwwision/neos-mailchimp": "^2.1"
+"wwwision/neos-mailchimp": "^3.0"
 ```
-To your Site package (or whichever package that uses the module or service) and install it and it's dependencies via `composer install`.
-
-**Note:** If you get an error `Class 'mailchimp' not found`, try to optimize the composer autoloading classmap with `composer install --optimize-autoloader`. That should resolve the issue.
+To your Site package (or whichever package that uses the module or service) and install it and its dependencies via `composer install`.
 
 After successful installation make sure to configure the MailChimp® API key in the `Settings.yaml`of your Site package:
 
@@ -120,7 +118,7 @@ renderingOptions:
     submitButtonLabel: ''
 ```
 
-**Note:** Replace "\<MAILCHIMP-LIST-ID\>" with a valid list identifier that can be obtained from `mailchimp.com > Lists > <YOUR-LIST> > Settings > List name & defaults`. A list ID usually contains letters and numbers such as "d2a96c360f".
+**Note:** Replace the two "\<MAILCHIMP-LIST-ID\>" with a valid list identifier that can be obtained from `mailchimp.com > Lists > <YOUR-LIST> > Settings > List name & defaults`. A list ID usually contains letters and numbers such as "d2a96c360f".
 
 
 The `additionalFields` option can be nested, for example in order to specify interest groups:
@@ -154,7 +152,7 @@ This package demonstrates...
 
 ...how to make use of [Objects.yaml](http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ObjectManagement.html#configuring-objects) to initialize custom API clients
 
-...how to make arbitrary result sets coubtable and "paginatable" using a `CallbackQueryResult` object
+...how to make arbitrary result sets countable and "paginatable" using a `CallbackQueryResult` object
 
 License
 -------

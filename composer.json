@@ -4,8 +4,7 @@
     "description": "TYPO3 Flow package that integrates MailChimp into your Neos site / Flow Application",
     "license": "GPL-3.0+",
     "require": {
-        "typo3/flow": "~3.2",
-        "mailchimp/mailchimp": "~2.0"
+        "typo3/flow": "^3.2"
     },
     "autoload": {
         "psr-0": {

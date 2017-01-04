@@ -15,7 +15,7 @@
 				</tr>
 				<tr>
 					<th>Default sender</th>
-					<td>{list.default_from_name} &lt;{list.default_from_email}&gt;</td>
+					<td>{list.campaign_defaults.from_name} &lt;{list.campaign_defaults.from_email}&gt;</td>
 				</tr>
 				<tr>
 					<th>Subscribe URL</th>
@@ -40,8 +40,8 @@
 				</thead>
 				<f:for each="{paginatedMembers}" as="member">
 					<tr>
-						<td><i class="icon-user icon-user"></i> {member.email}</td>
-						<td>{member.timestamp}</td>
+						<td><i class="icon-user icon-user"></i> {member.email_address}</td>
+						<td>{member.timestamp_signup}</td>
 						<td>{member.member_rating}</td>
 						<td class="neos-action">
 							<div class="neos-pull-right">
@@ -52,7 +52,7 @@
 									<div class="neos-modal">
 										<div class="neos-modal-header">
 											<button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
-											<div class="neos-header">Do you really want to unsubscribe the member "{member.email}" from the list "{list.name}"?</div>
+											<div class="neos-header">Do you really want to unsubscribe the member "{member.email_address}" from the list "{list.name}"?</div>
 											<div>
 												<div class="neos-subheader">
 													<p>This will remove the member from this list.<br />A goodbye email will be sent to the member.</p>
@@ -62,7 +62,7 @@
 										<div class="neos-modal-footer">
 											<a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
 											<f:form action="unsubscribe" arguments="{listId: list.id}" class="neos-inline">
-												<f:form.hidden name="emailAddress" value="{member.email}" />
+												<f:form.hidden name="emailAddress" value="{member.email_address}" />
 												<button type="submit" class="neos-button neos-button-danger" title="Unsubscribe member">
 													Yes, unsubscribe the member
 												</button>

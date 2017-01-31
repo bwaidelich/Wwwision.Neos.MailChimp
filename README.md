@@ -17,7 +17,7 @@ Usage
 Install this package and make sure to resolve all dependencies.
 The easiest way to install this package is to add
 ```json
-"wwwision/neos-mailchimp": "^3.0"
+"wwwision/neos-mailchimp": "^4.0"
 ```
 To your Site package (or whichever package that uses the module or service) and install it and its dependencies via `composer install`.
 
@@ -57,44 +57,44 @@ It also adds the corresponding *FormBuilder* configuration so that the finisher 
 Alternatively you can save the following snippet to `Data/Forms/newsletter.yaml` to create a simple newsletter subscription form:
 
 ```yaml
-type: 'TYPO3.Form:Form'
+type: 'Neos.Form:Form'
 identifier: mailchimp
 label: Mailchimp
 renderables:
     -
-        type: 'TYPO3.Form:Page'
+        type: 'Neos.Form:Page'
         identifier: page1
         label: 'Page 1'
         renderables:
             -
-                type: 'TYPO3.Form:SingleLineText'
+                type: 'Neos.Form:SingleLineText'
                 identifier: 'firstName'
                 label: 'First name'
                 validators:
                     -
-                        identifier: 'TYPO3.Flow:NotEmpty'
+                        identifier: 'Neos.Flow:NotEmpty'
                 properties:
                     placeholder: 'Your first name'
                 defaultValue: ''
             -
-                type: 'TYPO3.Form:SingleLineText'
+                type: 'Neos.Form:SingleLineText'
                 identifier: 'lastName'
                 label: 'Last name'
                 validators:
                     -
-                        identifier: 'TYPO3.Flow:NotEmpty'
+                        identifier: 'Neos.Flow:NotEmpty'
                 properties:
                     placeholder: 'Your last name'
                 defaultValue: ''
             -
-                type: 'TYPO3.Form:SingleLineText'
+                type: 'Neos.Form:SingleLineText'
                 identifier: 'email'
                 label: 'E-Mail'
                 validators:
                     -
-                        identifier: 'TYPO3.Flow:NotEmpty'
+                        identifier: 'Neos.Flow:NotEmpty'
                     -
-                        identifier: 'TYPO3.Flow:EmailAddress'
+                        identifier: 'Neos.Flow:EmailAddress'
                     -
                         identifier: 'Wwwision.Neos.MailChimp:UniqueSubscription'
                         options:
@@ -111,7 +111,7 @@ finishers:
               'FNAME': '{firstName}'
               'LNAME': '{lastName}'
     -
-        identifier: 'TYPO3.Form:Confirmation'
+        identifier: 'Neos.Form:Confirmation'
         options:
             message: 'Thank you, your subscription was successful. Please check your email.'
 renderingOptions:

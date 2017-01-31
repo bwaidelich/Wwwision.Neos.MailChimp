@@ -1,6 +1,6 @@
-# use TYPO3.Neos layouts and partials when dispatching controllers inside the Neos modules
+# use Neos.Neos layouts and partials when dispatching controllers inside the Neos modules
 -
-  requestFilter: 'mainRequest.isPackage("TYPO3.Neos") && isPackage("Wwwision.Neos.MailChimp") && isController("Module\MailChimp")'
+  requestFilter: 'mainRequest.isPackage("Neos.Neos") && isPackage("Wwwision.Neos.MailChimp") && isController("Module\MailChimp")'
   options:
-    'layoutRootPaths': ['resource://TYPO3.Neos/Private/Layouts']
-    'partialRootPaths': ['resource://Wwwision.Neos.MailChimp/Private/Partials', 'resource://TYPO3.Neos/Private/Partials']
+    'layoutRootPaths': ['resource://Neos.Neos/Private/Layouts']
+    'partialRootPaths': ['resource://Wwwision.Neos.MailChimp/Private/Partials', 'resource://Neos.Neos/Private/Partials']

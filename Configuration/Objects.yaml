@@ -4,4 +4,4 @@ Wwwision\Neos\MailChimp\Domain\Service\MailChimpService:
     1:
       setting: 'Wwwision.Neos.MailChimp.apiKey'
     2:
-      object: 'TYPO3\Flow\Http\Client\CurlEngine'
+      object: 'Neos\Flow\Http\Client\CurlEngine'

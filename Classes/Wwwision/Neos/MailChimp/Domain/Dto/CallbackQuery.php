@@ -1,8 +1,8 @@
 <?php
 namespace Wwwision\Neos\MailChimp\Domain\Dto;
 
-use TYPO3\Flow\Persistence\QueryInterface;
-use TYPO3\Flow\Persistence\QueryResultInterface;
+use Neos\Flow\Persistence\QueryInterface;
+use Neos\Flow\Persistence\QueryResultInterface;
 
 /**
  * A generic Query that can be used to produce proper QueryResults from computed results (via callbacks)
@@ -221,7 +221,7 @@ class CallbackQuery implements QueryInterface
      * @param string $operand The value to compare with
      * @param boolean $caseSensitive Whether the matching should be done case-sensitive
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a non-string property
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a non-string property
      */
     public function like($propertyName, $operand, $caseSensitive = TRUE)
     {
@@ -232,7 +232,7 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the multivalued property to compare against
      * @param mixed $operand The value to compare with
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a single-valued property
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a single-valued property
      */
     public function contains($propertyName, $operand)
     {
@@ -242,7 +242,7 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the multivalued property to compare against
      * @return boolean
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a single-valued property
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a single-valued property
      */
     public function isEmpty($propertyName)
     {
@@ -253,7 +253,7 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with, multivalued
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property
      */
     public function in($propertyName, $operand)
     {
@@ -264,7 +264,7 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function lessThan($propertyName, $operand)
     {
@@ -275,7 +275,7 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function lessThanOrEqual($propertyName, $operand)
     {
@@ -286,7 +286,7 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function greaterThan($propertyName, $operand)
     {
@@ -297,7 +297,7 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
      * @return object
-     * @throws \TYPO3\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
+     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function greaterThanOrEqual($propertyName, $operand)
     {

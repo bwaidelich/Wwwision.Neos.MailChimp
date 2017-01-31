@@ -1,8 +1,8 @@
 <?php
 namespace Wwwision\Neos\MailChimp\Validation\Validator;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Validation\Validator\EmailAddressValidator;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Validation\Validator\EmailAddressValidator;
 use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
 
 /**

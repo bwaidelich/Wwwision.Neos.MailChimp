@@ -1,9 +1,9 @@
 <?php
 namespace Wwwision\Neos\MailChimp\Controller\Module;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Message;
-use TYPO3\Neos\Controller\Module\AbstractModuleController;
+use Neos\Flow\Annotations as Flow;
+use Neos\Error\Messages\Message;
+use Neos\Neos\Controller\Module\AbstractModuleController;
 use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
 use Wwwision\Neos\MailChimp\Exception\MailChimpException;
 use Wwwision\Neos\MailChimp\Exception\ResourceNotFoundException;

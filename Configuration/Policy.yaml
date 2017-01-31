@@ -7,13 +7,13 @@
 
 privilegeTargets:
 
-  TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
     'Wwwision.Neos.MailChimp:BackendModuleMailChimp':
       matcher: 'method(Wwwision\Neos\MailChimp\Controller\Module\MailChimpController->(.*)Action())'
 
 roles:
 
-  'TYPO3.Neos:Administrator':
+  'Neos.Neos:Administrator':
     privileges:
       -
         privilegeTarget: 'Wwwision.Neos.MailChimp:BackendModuleMailChimp'

@@ -1,51 +1,40 @@
 Wwwision:
   Neos:
     MailChimp:
-       # set this to a valid MailChimp API key!
       apiKey: ''
-
 TYPO3:
-
+  FormBuilder:
+    handlebarsTemplates:
+      Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher: 'resource://Wwwision.Neos.MailChimp/Private/FormBuilderTemplates/MailChimpSubscriptionFinisher.html'
+Neos:
   Form:
     supertypeResolver:
       hiddenProperties:
-        # don't complain about "formBuilder" settings, if the TYPO3.FormBuilder package is not installed
         formBuilder: formBuilder
     presets:
-      'default':
+      default:
         finisherPresets:
-           # register a custom Form finisher that subscribes emails to a given MailChimp list
           'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
-            implementationClassName: 'Wwwision\Neos\MailChimp\Form\Finishers\MailChimpSubscriptionFinisher'
-
+            implementationClassName: Wwwision\Neos\MailChimp\Form\Finishers\MailChimpSubscriptionFinisher
         validatorPresets:
           'Wwwision.Neos.MailChimp:UniqueSubscription':
-            implementationClassName: 'Wwwision\Neos\MailChimp\Validation\Validator\UniqueSubscriptionValidator'
-
+            implementationClassName: Wwwision\Neos\MailChimp\Validation\Validator\UniqueSubscriptionValidator
         formElementTypes:
-          'TYPO3.Form:Form':
+          'Neos.Form:Form':
             formBuilder:
               editors:
                 finishers:
                   availableFinishers:
-                     # make the new finisher available in the FormBuilder
                     'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
                       label: 'MailChimp Finisher'
-                      templateName: 'Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher'
-
-  FormBuilder:
-    handlebarsTemplates:
-       # register template for the custom FormBuilder editor
-      'Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher': resource://Wwwision.Neos.MailChimp/Private/FormBuilderTemplates/MailChimpSubscriptionFinisher.html
-
+                      templateName: Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher
   Neos:
     modules:
-      'administration':
+      administration:
         submodules:
-           # configure TYPO3 Neos module for the "MailChimp" administration
-          'mailchimp':
-            label: 'MailChimp'
-            controller: 'Wwwision\Neos\MailChimp\Controller\Module\MailChimpController'
+          mailchimp:
+            label: MailChimp
+            controller: Wwwision\Neos\MailChimp\Controller\Module\MailChimpController
             description: 'This module provides you with a simple overview of your MailChimp® lists and allows for (un)subscribing members'
-            icon: 'icon-bullhorn'
+            icon: icon-bullhorn
             resource: 'Wwwision.Neos.MailChimp:BackendModuleMailChimp'

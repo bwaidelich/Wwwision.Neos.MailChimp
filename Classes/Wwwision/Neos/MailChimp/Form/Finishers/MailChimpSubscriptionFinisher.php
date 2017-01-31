@@ -1,10 +1,10 @@
 <?php
 namespace Wwwision\Neos\MailChimp\Form\Finishers;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Form\Core\Model\AbstractFinisher;
-use TYPO3\Form\Exception\FinisherException;
+use Neos\Flow\Annotations as Flow;
+use Neos\Utility\ObjectAccess;
+use Neos\Form\Core\Model\AbstractFinisher;
+use Neos\Form\Exception\FinisherException;
 use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
 use Wwwision\Neos\MailChimp\Exception\MailChimpException;
 

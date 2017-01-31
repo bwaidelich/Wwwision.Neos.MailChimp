@@ -1,12 +1,12 @@
 <?php
 namespace Wwwision\Neos\MailChimp\Domain\Service;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Http\Client\RequestEngineInterface;
-use TYPO3\Flow\Http\Request;
-use TYPO3\Flow\Http\Uri;
-use TYPO3\Flow\Persistence\QueryInterface;
-use TYPO3\Flow\Persistence\QueryResultInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Http\Client\RequestEngineInterface;
+use Neos\Flow\Http\Request;
+use Neos\Flow\Http\Uri;
+use Neos\Flow\Persistence\QueryInterface;
+use Neos\Flow\Persistence\QueryResultInterface;
 use Wwwision\Neos\MailChimp\Domain\Dto\CallbackQuery;
 use Wwwision\Neos\MailChimp\Domain\Dto\CallbackQueryResult;
 use Wwwision\Neos\MailChimp\Exception\InvalidApiKeyException;

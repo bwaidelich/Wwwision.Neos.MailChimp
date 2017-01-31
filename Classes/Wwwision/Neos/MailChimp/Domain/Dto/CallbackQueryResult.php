@@ -1,7 +1,7 @@
 <?php
 namespace Wwwision\Neos\MailChimp\Domain\Dto;
 
-use TYPO3\Flow\Persistence\QueryResultInterface;
+use Neos\Flow\Persistence\QueryResultInterface;
 
 /**
  * A QueryResult for the CallbackQuery

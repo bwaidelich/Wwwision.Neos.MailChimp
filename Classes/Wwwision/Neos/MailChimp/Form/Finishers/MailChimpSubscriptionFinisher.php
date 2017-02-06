@@ -26,7 +26,7 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
     protected $defaultOptions = [
         'listId' => '',
         'emailAddress' => '{email}',
-        'additionalFields' => []
+        'additionalFields' => null
     ];
 
     /**
@@ -57,6 +57,9 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
      */
     protected function replacePlaceholders($field)
     {
+        if ($field === null) {
+            return null;
+        }
         if (is_array($field)) {
             return array_map([$this, 'replacePlaceholders'], $field);
         }

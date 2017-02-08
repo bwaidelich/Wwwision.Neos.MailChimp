@@ -49,3 +49,7 @@ TYPO3:
             description: 'This module provides you with a simple overview of your MailChimp® lists and allows for (un)subscribing members'
             icon: 'icon-bullhorn'
             resource: 'Wwwision.Neos.MailChimp:BackendModuleMailChimp'
+
+  TypoScript:
+    defaultContext:
+      Wwwision.Neos.MailChimp: 'Wwwision\Neos\MailChimp\Eel\MailChimpHelper'

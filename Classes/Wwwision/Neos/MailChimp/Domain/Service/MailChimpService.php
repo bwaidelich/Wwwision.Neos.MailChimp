@@ -24,17 +24,17 @@ class MailChimpService
     /**
      * @var RequestEngineInterface
      */
-    private $requestEngine;
+    protected $requestEngine;
 
     /**
      * @var string
      */
-    private $apiKey;
+    protected $apiKey;
 
     /**
      * @var string
      */
-    private $apiEndpoint;
+    protected $apiEndpoint;
 
     /**
      * @param string $apiKey MailChimp API key
@@ -72,6 +72,17 @@ class MailChimpService
     public function getListById($listId)
     {
         return $this->get("lists/$listId");
+    }
+
+    /**
+     * @param string $listId
+     * @param string $interestCategoryId
+     * @return array
+     */
+    public function getInterestsByListIdAndInterestCategoryId($listId, $interestCategoryId)
+    {
+        $interestsResult = $this->get("lists/$listId/interest-categories/$interestCategoryId/interests");
+        return $interestsResult['interests'];
     }
 
     /**
@@ -119,16 +130,20 @@ class MailChimpService
     /**
      * @param string $listId
      * @param string $emailAddress
+     * @param array $interests
      * @param array $additionalFields
      * @return void
      */
-    public function subscribe($listId, $emailAddress, array $additionalFields = null)
+    public function subscribe($listId, $emailAddress, array $interests = null, array $additionalFields = null)
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $arguments = [
             'email_address' => $emailAddress,
             'status' => 'pending',
         ];
+        if ($interests !== null) {
+            $arguments['interests'] = $interests;
+        }
         if ($additionalFields !== null) {
             $arguments['merge_fields'] = $additionalFields;
         }
@@ -151,7 +166,7 @@ class MailChimpService
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
      */
-    private function get($resource, array $arguments = null)
+    protected function get($resource, array $arguments = null)
     {
         return $this->makeRequest('GET', $resource, $arguments);
     }
@@ -161,7 +176,7 @@ class MailChimpService
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
      */
-    private function put($resource, array $arguments = null)
+    protected function put($resource, array $arguments = null)
     {
         return $this->makeRequest('PUT', $resource, $arguments);
     }
@@ -171,7 +186,7 @@ class MailChimpService
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
      */
-    private function patch($resource, array $arguments = null)
+    protected function patch($resource, array $arguments = null)
     {
         return $this->makeRequest('PUT', $resource, $arguments);
     }
@@ -183,7 +198,7 @@ class MailChimpService
      * @return array The decoded response
      * @throws MailChimpException
      */
-    private function makeRequest($method, $resource, array $arguments = null)
+    protected function makeRequest($method, $resource, array $arguments = null)
     {
         $uri = new Uri($this->apiEndpoint . '/' . $resource);
         if ($method === 'GET' && $arguments !== null) {

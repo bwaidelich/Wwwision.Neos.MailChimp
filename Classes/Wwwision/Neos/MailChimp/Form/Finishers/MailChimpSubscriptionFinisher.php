@@ -26,7 +26,8 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
     protected $defaultOptions = [
         'listId' => '',
         'emailAddress' => '{email}',
-        'additionalFields' => []
+        'additionalFields' => null,
+        'interests' => []
     ];
 
     /**
@@ -40,10 +41,11 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
     {
         $listId = $this->parseOption('listId');
         $emailAddress = $this->parseOption('emailAddress');
+        $interests = $this->parseOption('interests');
 
         $additionalFields = $this->replacePlaceholders($this->parseOption('additionalFields'));
         try {
-            $this->mailChimpService->subscribe($listId, $emailAddress, $additionalFields);
+            $this->mailChimpService->subscribe($listId, $emailAddress, $interests, $additionalFields);
         } catch (MailChimpException $exception) {
             throw new FinisherException(sprintf('Failed to subscribe "%s" to list "%s"!', $emailAddress, $listId), 1418060900, $exception);
         }

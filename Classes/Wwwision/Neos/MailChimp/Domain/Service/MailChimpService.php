@@ -134,7 +134,7 @@ class MailChimpService
      * @param array $additionalFields
      * @return void
      */
-    public function subscribe($listId, $emailAddress, array $interests = null, array $additionalFields = null)
+    public function subscribe($listId, $emailAddress, $interests = null, $additionalFields = null)
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $arguments = [
@@ -144,9 +144,10 @@ class MailChimpService
         if ($interests !== null) {
             $arguments['interests'] = $interests;
         }
-        if ($additionalFields !== null) {
+        if ($additionalFields) {
             $arguments['merge_fields'] = $additionalFields;
         }
+
         $this->put("lists/$listId/members/$subscriberHash", $arguments);
     }
 
@@ -159,6 +160,18 @@ class MailChimpService
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $this->patch("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'status' => 'unsubscribed']);
+    }
+
+    /**
+     * @param string $listId
+     * @param string $emailAddress
+     * @param array $interests
+     * @return void
+     */
+    public function updateInterests($listId, $emailAddress, $interests)
+    {
+        $subscriberHash = md5(strtolower($emailAddress));
+        $this->patch("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'interests' => $interests]);
     }
 
     /**

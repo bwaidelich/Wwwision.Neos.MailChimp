@@ -23,6 +23,22 @@ class MailChimpHelper implements ProtectedContextAwareInterface
      */
     protected $cache;
 
+    public function getInterestsFormOptionsByListIdAndInterestCategoryId($listId, $categoryId)
+    {
+        $interests = $this->getInterestsByListIdAndInterestCategoryId($listId, $categoryId);
+        $options = [];
+
+        usort($interests, function($a, $b) {
+            return $a["display_order"] - $b["display_order"];
+        });
+
+        foreach ($interests as $interest) {
+            $options[$interest['id']] = $interest['name'];
+        }
+
+        return $options;
+    }
+
     public function getInterestsByListIdAndInterestCategoryId($listId, $categoryId)
     {
         $cacheKey = "MailChimp_Interests_$categoryId";

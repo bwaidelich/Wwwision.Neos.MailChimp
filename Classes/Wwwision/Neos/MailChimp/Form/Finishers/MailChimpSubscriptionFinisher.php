@@ -27,7 +27,7 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
         'listId' => '',
         'emailAddress' => '{email}',
         'additionalFields' => null,
-        'interests' => []
+        'interestsField' => null
     ];
 
     /**
@@ -41,9 +41,17 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
     {
         $listId = $this->parseOption('listId');
         $emailAddress = $this->parseOption('emailAddress');
-        $interests = $this->parseOption('interests');
-
+        $interestsField = $this->parseOption('interestsField');
         $additionalFields = $this->replacePlaceholders($this->parseOption('additionalFields'));
+        $interests = [];
+
+        if (!is_null($interestsField)) {
+            $selectedInterests = ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), 'interests');
+            foreach ($selectedInterests as $selectedInterest) {
+                $interests[$selectedInterest] = true;
+            }
+        }
+
         try {
             $this->mailChimpService->subscribe($listId, $emailAddress, $interests, $additionalFields);
         } catch (MailChimpException $exception) {

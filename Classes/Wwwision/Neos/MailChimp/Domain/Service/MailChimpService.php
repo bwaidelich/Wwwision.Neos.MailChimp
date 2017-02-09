@@ -2,6 +2,7 @@
 namespace Wwwision\Neos\MailChimp\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Cache\Frontend\VariableFrontend;
 use TYPO3\Flow\Http\Client\RequestEngineInterface;
 use TYPO3\Flow\Http\Request;
 use TYPO3\Flow\Http\Uri;
@@ -24,17 +25,23 @@ class MailChimpService
     /**
      * @var RequestEngineInterface
      */
-    private $requestEngine;
+    protected $requestEngine;
 
     /**
      * @var string
      */
-    private $apiKey;
+    protected $apiKey;
 
     /**
      * @var string
      */
-    private $apiEndpoint;
+    protected $apiEndpoint;
+
+    /**
+     * @Flow\Inject(lazy=false)
+     * @var VariableFrontend
+     */
+    protected $cache;
 
     /**
      * @param string $apiKey MailChimp API key
@@ -72,6 +79,44 @@ class MailChimpService
     public function getListById($listId)
     {
         return $this->get("lists/$listId");
+    }
+
+    /**
+     * @param string $listId
+     * @param string $interestCategoryId
+     * @return array
+     */
+    public function getCategoryByListIdAndInterestCategoryId($listId, $interestCategoryId)
+    {
+        $cacheKey = "MailChimp_List_" . $listId ."_Category_" . $interestCategoryId;
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
+        $categoryResult = $this->get("lists/$listId/interest-categories/$interestCategoryId");
+
+        $this->cache->set($cacheKey, $categoryResult, [], 60 * 60 * 1); // 1 hour caching
+
+        return $categoryResult;
+    }
+
+    /**
+     * @param string $listId
+     * @param string $interestCategoryId
+     * @return array
+     */
+    public function getInterestsByListIdAndInterestCategoryId($listId, $interestCategoryId)
+    {
+        $cacheKey = "MailChimp_List_" . $listId ."_Interests_" . $interestCategoryId;
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
+        $interestsResult = $this->get("lists/$listId/interest-categories/$interestCategoryId/interests");
+
+        $this->cache->set($cacheKey, $interestsResult, [], 60 * 60 * 1); // 1 hour caching
+
+        return $interestsResult;
     }
 
     /**
@@ -119,19 +164,24 @@ class MailChimpService
     /**
      * @param string $listId
      * @param string $emailAddress
+     * @param array $interests
      * @param array $additionalFields
      * @return void
      */
-    public function subscribe($listId, $emailAddress, array $additionalFields = null)
+    public function subscribe($listId, $emailAddress, $interests = null, $additionalFields = null)
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $arguments = [
             'email_address' => $emailAddress,
             'status' => 'pending',
         ];
-        if ($additionalFields !== null) {
+        if ($interests !== null) {
+            $arguments['interests'] = $interests;
+        }
+        if ($additionalFields) {
             $arguments['merge_fields'] = $additionalFields;
         }
+
         $this->put("lists/$listId/members/$subscriberHash", $arguments);
     }
 
@@ -147,11 +197,23 @@ class MailChimpService
     }
 
     /**
+     * @param string $listId
+     * @param string $emailAddress
+     * @param array $interests
+     * @return void
+     */
+    public function updateInterests($listId, $emailAddress, $interests)
+    {
+        $subscriberHash = md5(strtolower($emailAddress));
+        $this->patch("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'interests' => $interests]);
+    }
+
+    /**
      * @param string $resource The REST resource name (e.g. "lists")
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
      */
-    private function get($resource, array $arguments = null)
+    protected function get($resource, array $arguments = null)
     {
         return $this->makeRequest('GET', $resource, $arguments);
     }
@@ -161,7 +223,7 @@ class MailChimpService
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
      */
-    private function put($resource, array $arguments = null)
+    protected function put($resource, array $arguments = null)
     {
         return $this->makeRequest('PUT', $resource, $arguments);
     }
@@ -171,7 +233,7 @@ class MailChimpService
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
      */
-    private function patch($resource, array $arguments = null)
+    protected function patch($resource, array $arguments = null)
     {
         return $this->makeRequest('PUT', $resource, $arguments);
     }
@@ -183,7 +245,7 @@ class MailChimpService
      * @return array The decoded response
      * @throws MailChimpException
      */
-    private function makeRequest($method, $resource, array $arguments = null)
+    protected function makeRequest($method, $resource, array $arguments = null)
     {
         $uri = new Uri($this->apiEndpoint . '/' . $resource);
         if ($method === 'GET' && $arguments !== null) {
@@ -207,6 +269,24 @@ class MailChimpService
             throw new ResourceNotFoundException($errorMessage, 1483538558);
         }
         throw new MailChimpException($errorMessage, 1483533997);
+    }
+
+    public function getInterestsFormOptionsByListIdAndInterestCategoryId($listId, $categoryId)
+    {
+        $interestsResult = $this->getInterestsByListIdAndInterestCategoryId($listId, $categoryId);
+        $interests = $interestsResult['interests'];
+        $options = [];
+
+        usort($interests, function($a, $b) {
+            return $a["display_order"] - $b["display_order"];
+        });
+
+        foreach ($interests as $interest) {
+            $options[$interest['id']] = $interest['name'];
+        }
+
+
+        return $options;
     }
 
 }

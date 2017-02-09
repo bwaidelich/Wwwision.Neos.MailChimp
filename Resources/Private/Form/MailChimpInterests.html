@@ -1,0 +1,31 @@
+<f:layout name="TYPO3.Form:Field" />
+<f:section name="field">
+    xx
+    <f:if condition="{element.properties.type} == 'checkboxes'">
+        <ul class="inputs-list" id="{element.uniqueIdentifier}">
+            <f:for each="{element.properties.options}" as="label" key="value">
+                <li>
+                    <label>
+                        <f:form.checkbox property="{element.identifier}" multiple="1" class="{element.properties.elementClassAttribute}" value="{value}" errorClass="{element.properties.elementErrorClassAttribute}" />
+                        <span>{label}</span>
+                    </label>
+                </li>
+            </f:for>
+        </ul>
+    </f:if>
+    <f:if condition="{element.properties.type} == 'radio'">
+        <ul class="inputs-list" id="{element.uniqueIdentifier}">
+            <f:for each="{element.properties.options}" as="label" key="value">
+                <li>
+                    <label>
+                        <f:form.radio property="{element.identifier}" class="{element.properties.elementClassAttribute}" value="{value}" errorClass="{element.properties.elementErrorClassAttribute}" />
+                        <span>{label}</span>
+                    </label>
+                </li>
+            </f:for>
+        </ul>
+    </f:if>
+    <f:if condition="{element.properties.type} == 'dropdown'">
+        <f:form.select property="{element.identifier}" id="{element.uniqueIdentifier}" options="{element.properties.options}" class="{element.properties.elementClassAttribute}" errorClass="{element.properties.elementErrorClassAttribute}" />
+    </f:if>
+</f:section>

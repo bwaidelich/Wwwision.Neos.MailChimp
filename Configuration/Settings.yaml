@@ -32,6 +32,10 @@ TYPO3:
                     'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
                       label: 'MailChimp Finisher'
                       templateName: 'Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher'
+          'Wwwision.Neos.MailChimp:MailChimpInterests':
+            superTypes:
+              'TYPO3.Form:FormElement': TRUE
+            implementationClassName: 'Wwwision\Neos\MailChimp\Form\FormElements\MailChimpInterestsFormElement'
 
   FormBuilder:
     handlebarsTemplates:

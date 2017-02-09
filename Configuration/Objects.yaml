@@ -5,8 +5,6 @@ Wwwision\Neos\MailChimp\Domain\Service\MailChimpService:
       setting: 'Wwwision.Neos.MailChimp.apiKey'
     2:
       object: 'TYPO3\Flow\Http\Client\CurlEngine'
-
-Wwwision\Neos\MailChimp\Eel\MailChimpHelper:
   properties:
     cache:
       object:
@@ -14,4 +12,4 @@ Wwwision\Neos\MailChimp\Eel\MailChimpHelper:
         factoryMethodName: getCache
         arguments:
           1:
-            value: Wwwision_MailChimp_MailChimpHelper
+            value: Wwwision_MailChimp_MailChimpService

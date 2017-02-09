@@ -2,6 +2,7 @@
 namespace Wwwision\Neos\MailChimp\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Cache\Frontend\VariableFrontend;
 use TYPO3\Flow\Http\Client\RequestEngineInterface;
 use TYPO3\Flow\Http\Request;
 use TYPO3\Flow\Http\Uri;
@@ -35,6 +36,12 @@ class MailChimpService
      * @var string
      */
     protected $apiEndpoint;
+
+    /**
+     * @Flow\Inject(lazy=false)
+     * @var VariableFrontend
+     */
+    protected $cache;
 
     /**
      * @param string $apiKey MailChimp API key
@@ -79,10 +86,37 @@ class MailChimpService
      * @param string $interestCategoryId
      * @return array
      */
+    public function getCategoryByListIdAndInterestCategoryId($listId, $interestCategoryId)
+    {
+        $cacheKey = "MailChimp_List_" . $listId ."_Category_" . $interestCategoryId;
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
+        $categoryResult = $this->get("lists/$listId/interest-categories/$interestCategoryId");
+
+        $this->cache->set($cacheKey, $categoryResult, [], 60 * 60 * 1); // 1 hour caching
+
+        return $categoryResult;
+    }
+
+    /**
+     * @param string $listId
+     * @param string $interestCategoryId
+     * @return array
+     */
     public function getInterestsByListIdAndInterestCategoryId($listId, $interestCategoryId)
     {
+        $cacheKey = "MailChimp_List_" . $listId ."_Interests_" . $interestCategoryId;
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
         $interestsResult = $this->get("lists/$listId/interest-categories/$interestCategoryId/interests");
-        return $interestsResult['interests'];
+
+        $this->cache->set($cacheKey, $interestsResult, [], 60 * 60 * 1); // 1 hour caching
+
+        return $interestsResult;
     }
 
     /**
@@ -235,6 +269,24 @@ class MailChimpService
             throw new ResourceNotFoundException($errorMessage, 1483538558);
         }
         throw new MailChimpException($errorMessage, 1483533997);
+    }
+
+    public function getInterestsFormOptionsByListIdAndInterestCategoryId($listId, $categoryId)
+    {
+        $interestsResult = $this->getInterestsByListIdAndInterestCategoryId($listId, $categoryId);
+        $interests = $interestsResult['interests'];
+        $options = [];
+
+        usort($interests, function($a, $b) {
+            return $a["display_order"] - $b["display_order"];
+        });
+
+        foreach ($interests as $interest) {
+            $options[$interest['id']] = $interest['name'];
+        }
+
+
+        return $options;
     }
 
 }

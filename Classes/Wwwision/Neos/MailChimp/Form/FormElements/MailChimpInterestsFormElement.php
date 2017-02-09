@@ -25,10 +25,10 @@ class MailChimpInterestsFormElement extends GenericFormElement {
         $properties = $this->getProperties();
 
         if (!isset($properties['listId'])) {
-            throw new Exception('Property "listId" missing' ,1486627024);
+            throw new Exception('Property "listId" missing', 1486627024);
         }
         if (!isset($properties['categoryId'])) {
-            throw new Exception('Property "categoryId" missing' ,1486627024);
+            throw new Exception('Property "categoryId" missing', 1486631201);
         }
         $listId = $properties['listId'];
         $categoryId = $properties['categoryId'];

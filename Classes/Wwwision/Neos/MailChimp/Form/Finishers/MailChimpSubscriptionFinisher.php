@@ -9,7 +9,7 @@ use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
 use Wwwision\Neos\MailChimp\Exception\MailChimpException;
 
 /**
- * A finisher for the TYPO3 Form project allowing for subscribing newsletter recipients
+ * A finisher for the Neos Form framework allowing for subscribing newsletter recipients
  */
 class MailChimpSubscriptionFinisher extends AbstractFinisher
 {

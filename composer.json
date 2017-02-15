@@ -1,10 +1,10 @@
 {
     "name": "wwwision/neos-mailchimp",
-    "type": "typo3-flow-package",
-    "description": "TYPO3 Flow package that integrates MailChimp into your Neos site / Flow Application",
+    "type": "neos-package",
+    "description": "Flow package that integrates MailChimp into your Neos site / Flow Application",
     "license": "GPL-3.0+",
     "require": {
-        "typo3/flow": "^3.2"
+        "typo3/flow": "^4.0"
     },
     "autoload": {
         "psr-0": {

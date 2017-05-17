@@ -154,6 +154,12 @@ This package demonstrates...
 
 ...how to make arbitrary result sets countable and "paginatable" using a `CallbackQueryResult` object
 
+FAQ
+---
+
+* I get an error `No MailChimp lists found. Did you configure the API key correctly at Wwwision.Neos.MailChimp.apiKey?`, what's wrong with me?
+  * Make sure you have configured the API key in the Settings _and_ in the form finisher configuration as described above. If that's the case, make sure your Package dependency is correct. That means: The package that configures the API key must require the `wwwision/neos-mailchimp` package in the `composer.json` manifest. Otherwise the loading order is incorrect and the API key might be overridden by the default settings
+
 License
 -------
 

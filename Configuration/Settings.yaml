@@ -2,7 +2,7 @@ Wwwision:
   Neos:
     MailChimp:
       apiKey: ''
-TYPO3:
+Neos:
   FormBuilder:
     handlebarsTemplates:
       Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher: 'resource://Wwwision.Neos.MailChimp/Private/FormBuilderTemplates/MailChimpSubscriptionFinisher.html'

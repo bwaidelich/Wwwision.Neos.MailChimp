@@ -52,7 +52,6 @@ Form Finisher
 -------------
 
 This package also comes with a simple form finisher that allows for creation of simple Newsletter subscription forms using the *Flow Form Framework*.
-It also adds the corresponding *FormBuilder* configuration so that the finisher can be used directly in the visual editor.
 
 Alternatively you can save the following snippet to `Data/Forms/newsletter.yaml` to create a simple newsletter subscription form:
 
@@ -148,7 +147,7 @@ This package demonstrates...
 
 ...how to reuse Neos layouts and partials with [Views.yaml](http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ModelViewController.html#configuring-views-through-views-yaml)
 
-...how to create & configure a form finishers so that it can be used in the FormBuilder
+...how to create & configure a form finishers so that it can be used in the Form definition
 
 ...how to make use of [Objects.yaml](http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ObjectManagement.html#configuring-objects) to initialize custom API clients
 

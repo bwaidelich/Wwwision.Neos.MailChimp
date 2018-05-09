@@ -2,15 +2,8 @@ Wwwision:
   Neos:
     MailChimp:
       apiKey: ''
-TYPO3:
-  FormBuilder:
-    handlebarsTemplates:
-      Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher: 'resource://Wwwision.Neos.MailChimp/Private/FormBuilderTemplates/MailChimpSubscriptionFinisher.html'
 Neos:
   Form:
-    supertypeResolver:
-      hiddenProperties:
-        formBuilder: formBuilder
     presets:
       default:
         finisherPresets:

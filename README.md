@@ -140,6 +140,69 @@ finishers:
 
 The Form finisher can of course be used without Neos (i.e. for Newsletter-subscriptions within plain Flow applications).
 
+
+Form Builder Integration
+------------------------
+
+The provided Validator and Finisher can be used from the [Neos Form Builder](https://github.com/neos/form-builder) too.
+This requires two corresponding Node Type schemas:
+
+```yaml
+# UniqueMailChimpSubscription validator
+'Your.Package:UniqueMailChimpSubscription':
+    superTypes:
+        'Neos.Form.Builder:AbstractValidator': TRUE
+    ui:
+        label: 'Unique MailChimp subscription'
+        icon: 'icon-bullhorn'
+        inspector:
+            groups:
+                'validator':
+                    icon: 'icon-bullhorn'
+
+# allow UniqueMailChimpSubscription as validator for Text inputs
+'Neos.Form.Builder:TextValidatorsMixin':
+    childNodes:
+        'validators':
+            constraints:
+                nodeTypes:
+                    'Your.Package:UniqueMailChimpSubscription': TRUE
+
+# MailChimpSubscription Finisher
+'Your.Package:MailChimpSubscriptionFinisher':
+    superTypes:
+        'Neos.Form.Builder:AbstractFinisher': TRUE
+        ui:
+            label: 'MailChimp subscription'
+            icon: 'icon-bullhorn'
+            inspector:
+            groups:
+                'finisher':
+                    icon: 'icon-bullhorn'
+```
+
+And the corresponding Fusion definitions:
+
+`UniqueMailChimpSubscriptionValidator.fusion`:
+```
+prototype(Your.Package:UniqueMailChimpSubscription.Definition) < prototype(Neos.Form.Builder:Validator.Definition) {
+    formElementType = 'Wwwision.Neos.MailChimp:UniqueSubscription'
+    options {
+        listId = '<MAILCHIMP-LIST-ID>'
+    }
+}
+```
+
+`MailChimpSubscriptionFinisher.fusion`:
+```
+prototype(Your.Package:MailChimpSubscriptionFinisher.Definition) < prototype(Neos.Form.Builder:Finisher.Definition) {
+    formElementType = 'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher'
+    options {
+        listId = '<MAILCHIMP-LIST-ID>'
+    }
+}
+```
+
 Trivia
 ------
 

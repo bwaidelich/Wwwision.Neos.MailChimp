@@ -12,15 +12,6 @@ Neos:
         validatorPresets:
           'Wwwision.Neos.MailChimp:UniqueSubscription':
             implementationClassName: Wwwision\Neos\MailChimp\Validation\Validator\UniqueSubscriptionValidator
-        formElementTypes:
-          'Neos.Form:Form':
-            formBuilder:
-              editors:
-                finishers:
-                  availableFinishers:
-                    'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher':
-                      label: 'MailChimp Finisher'
-                      templateName: Finisher-Wwwision.Neos.MailChimp-MailChimpSubscriptionFinisher
   Neos:
     modules:
       administration:

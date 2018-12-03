@@ -120,9 +120,10 @@ class MailChimpService
      * @param string $listId
      * @param string $emailAddress
      * @param array $additionalFields
+     * @param array $marketingPermissions
      * @return void
      */
-    public function subscribe($listId, $emailAddress, array $additionalFields = null)
+    public function subscribe($listId, $emailAddress, array $additionalFields = null, array $marketingPermissions = null)
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $arguments = [
@@ -131,6 +132,9 @@ class MailChimpService
         ];
         if ($additionalFields !== null) {
             $arguments['merge_fields'] = $additionalFields;
+        }
+        if ($marketingPermissions !== null) {
+            $arguments['marketing_permissions'] = $marketingPermissions;
         }
         $this->put("lists/$listId/members/$subscriberHash", $arguments);
     }

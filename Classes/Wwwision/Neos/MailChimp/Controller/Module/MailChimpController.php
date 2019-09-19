@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace Wwwision\Neos\MailChimp\Controller\Module;
 
-use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Message;
+use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Controller\Module\AbstractModuleController;
 use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
 use Wwwision\Neos\MailChimp\Exception\MailChimpException;
@@ -36,7 +38,7 @@ class MailChimpController extends AbstractModuleController
      * @param string $listId
      * @return void
      */
-    public function listAction($listId)
+    public function listAction(string $listId): void
     {
         $list = $this->fetchListById($listId);
         $this->view->assign('list', $list);
@@ -52,17 +54,17 @@ class MailChimpController extends AbstractModuleController
      * @param string $emailAddress
      * @return void
      */
-    public function subscribeAction($listId, $emailAddress)
+    public function subscribeAction(string $listId, string $emailAddress): void
     {
         $list = $this->fetchListById($listId);
         try {
             $this->mailChimpService->subscribe($listId, $emailAddress);
         } catch (MailChimpException $exception) {
             $this->addFlashMessage('An error occurred while trying to subscribe the email "%s" to list "%s": "%s"', 'Error', Message::SEVERITY_ERROR, [$emailAddress, $list['name'], $exception->getMessage()]);
-            $this->redirect('list', NULL, NULL, ['listId' => $list['id']]);
+            $this->redirect('list', null, null, ['listId' => $list['id']]);
         }
-        $this->addFlashMessage('Subscribed email "%s" to list "%s". Note: The user will receive an email to confirm the subscription!', 'Success!', Message::SEVERITY_OK, array($emailAddress, $list['name']));
-        $this->redirect('list', NULL, NULL, ['listId' => $list['id']]);
+        $this->addFlashMessage('Subscribed email "%s" to list "%s". Note: The user will receive an email to confirm the subscription!', 'Success!', Message::SEVERITY_OK, [$emailAddress, $list['name']]);
+        $this->redirect('list', null, null, ['listId' => $list['id']]);
     }
 
     /**
@@ -70,17 +72,17 @@ class MailChimpController extends AbstractModuleController
      * @param string $emailAddress
      * @return void
      */
-    public function unsubscribeAction($listId, $emailAddress)
+    public function unsubscribeAction(string $listId, string $emailAddress): void
     {
         $list = $this->fetchListById($listId);
         try {
             $this->mailChimpService->unsubscribe($listId, $emailAddress);
         } catch (MailChimpException $exception) {
-            $this->addFlashMessage('An error occurred while trying to unsubscribe the email "%s" from list "%s": "%s"', 'Error', Message::SEVERITY_ERROR, array($emailAddress, $list['name'], $exception->getMessage()));
-            $this->redirect('list', NULL, NULL, ['listId' => $list['id']]);
+            $this->addFlashMessage('An error occurred while trying to unsubscribe the email "%s" from list "%s": "%s"', 'Error', Message::SEVERITY_ERROR, [$emailAddress, $list['name'], $exception->getMessage()]);
+            $this->redirect('list', null, null, ['listId' => $list['id']]);
         }
-        $this->addFlashMessage('Unsubscribed email "%s" from list "%s". Note: A goodbye-mail was sent to the user!', 'Success!', Message::SEVERITY_NOTICE, array($emailAddress, $list['name']));
-        $this->redirect('list', NULL, NULL, ['listId' => $list['id']]);
+        $this->addFlashMessage('Unsubscribed email "%s" from list "%s". Note: A goodbye-mail was sent to the user!', 'Success!', Message::SEVERITY_NOTICE, [$emailAddress, $list['name']]);
+        $this->redirect('list', null, null, ['listId' => $list['id']]);
     }
 
     /**
@@ -89,7 +91,7 @@ class MailChimpController extends AbstractModuleController
      * @param string $listId
      * @return array
      */
-    protected function fetchListById($listId)
+    protected function fetchListById(string $listId): ?array
     {
         try {
             return $this->mailChimpService->getListById($listId);

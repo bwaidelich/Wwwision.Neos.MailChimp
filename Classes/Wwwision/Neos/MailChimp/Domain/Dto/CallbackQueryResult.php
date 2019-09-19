@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Wwwision\Neos\MailChimp\Domain\Dto;
 
 use Neos\Flow\Persistence\QueryResultInterface;
@@ -8,7 +10,6 @@ use Neos\Flow\Persistence\QueryResultInterface;
  */
 class CallbackQueryResult implements QueryResultInterface
 {
-
     /**
      * @var CallbackQuery
      */
@@ -32,9 +33,9 @@ class CallbackQueryResult implements QueryResultInterface
      *
      * @return void
      */
-    protected function initialize()
+    protected function initialize(): void
     {
-        if ($this->results === NULL) {
+        if ($this->results === null) {
             $this->results = $this->query->getResult();
         }
     }
@@ -64,7 +65,7 @@ class CallbackQueryResult implements QueryResultInterface
             $results = $query->getResult();
         }
 
-        return (isset($results[0])) ? $results[0] : NULL;
+        return $results[0] ?? null;
     }
 
     /**
@@ -108,7 +109,7 @@ class CallbackQueryResult implements QueryResultInterface
     public function offsetGet($offset)
     {
         $this->initialize();
-        return isset($this->results[$offset]) ? $this->results[$offset] : NULL;
+        return $this->results[$offset] ?? null;
     }
 
     /**
@@ -178,6 +179,6 @@ class CallbackQueryResult implements QueryResultInterface
     public function valid()
     {
         $this->initialize();
-        return current($this->results) !== FALSE;
+        return current($this->results) !== false;
     }
 }

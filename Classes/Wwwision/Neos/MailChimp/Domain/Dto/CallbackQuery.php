@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Wwwision\Neos\MailChimp\Domain\Dto;
 
 use Neos\Flow\Persistence\QueryInterface;
@@ -10,7 +12,6 @@ use Neos\Flow\Persistence\QueryResultInterface;
  */
 class CallbackQuery implements QueryInterface
 {
-
     /**
      * @var \Closure
      */
@@ -40,7 +41,7 @@ class CallbackQuery implements QueryInterface
      * @param \Closure $resultCallback
      * @param \Closure $countCallback
      */
-    function __construct(\Closure $resultCallback, \Closure $countCallback = NULL)
+    public function __construct(\Closure $resultCallback, \Closure $countCallback = null)
     {
         $this->resultCallback = $resultCallback;
         $this->countCallback = $countCallback;
@@ -53,7 +54,7 @@ class CallbackQuery implements QueryInterface
      */
     public function getType()
     {
-        return NULL;
+        return null;
     }
 
     /**
@@ -62,7 +63,7 @@ class CallbackQuery implements QueryInterface
      * @param boolean $cacheResult If the result cache should be used
      * @return QueryResultInterface The query result
      */
-    public function execute($cacheResult = FALSE)
+    public function execute($cacheResult = false)
     {
         return new CallbackQueryResult($this);
     }
@@ -70,9 +71,9 @@ class CallbackQuery implements QueryInterface
     /**
      * @return array
      */
-    public function getResult()
+    public function getResult(): array
     {
-        return call_user_func_array($this->resultCallback, array($this));
+        return call_user_func_array($this->resultCallback, [$this]);
     }
 
     /**
@@ -82,8 +83,8 @@ class CallbackQuery implements QueryInterface
      */
     public function count()
     {
-        if ($this->countCallback !== NULL) {
-            return call_user_func_array($this->countCallback, array($this));
+        if ($this->countCallback !== null) {
+            return call_user_func_array($this->countCallback, [$this]);
         }
         return count($this->getResult());
     }
@@ -101,6 +102,7 @@ class CallbackQuery implements QueryInterface
     public function setOrderings(array $orderings)
     {
         $this->orderings = $orderings;
+        return $this;
     }
 
     /**
@@ -127,6 +129,7 @@ class CallbackQuery implements QueryInterface
     public function setLimit($limit)
     {
         $this->limit = $limit;
+        return $this;
     }
 
     /**
@@ -149,6 +152,7 @@ class CallbackQuery implements QueryInterface
     public function setOffset($offset)
     {
         $this->offset = $offset;
+        return $this;
     }
 
     /**
@@ -163,7 +167,6 @@ class CallbackQuery implements QueryInterface
 
     /**
      * @param object $constraint Some constraint, depending on the backend
-     * @return QueryInterface
      */
     public function matching($constraint)
     {
@@ -180,7 +183,6 @@ class CallbackQuery implements QueryInterface
 
     /**
      * @param mixed $constraint1 The first of multiple constraints or an array of constraints.
-     * @return object
      */
     public function logicalAnd($constraint1)
     {
@@ -189,7 +191,6 @@ class CallbackQuery implements QueryInterface
 
     /**
      * @param mixed $constraint1 The first of multiple constraints or an array of constraints.
-     * @return object
      */
     public function logicalOr($constraint1)
     {
@@ -198,7 +199,6 @@ class CallbackQuery implements QueryInterface
 
     /**
      * @param object $constraint Constraint to negate
-     * @return object
      */
     public function logicalNot($constraint)
     {
@@ -209,9 +209,8 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
      * @param boolean $caseSensitive Whether the equality test should be done case-sensitive for strings
-     * @return object
      */
-    public function equals($propertyName, $operand, $caseSensitive = TRUE)
+    public function equals($propertyName, $operand, $caseSensitive = true)
     {
         throw new \BadMethodCallException('This method is not implemented in this query implementation.');
     }
@@ -220,10 +219,8 @@ class CallbackQuery implements QueryInterface
      * @param string $propertyName The name of the property to compare against
      * @param string $operand The value to compare with
      * @param boolean $caseSensitive Whether the matching should be done case-sensitive
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a non-string property
      */
-    public function like($propertyName, $operand, $caseSensitive = TRUE)
+    public function like($propertyName, $operand, $caseSensitive = true)
     {
         throw new \BadMethodCallException('This method is not implemented in this query implementation.');
     }
@@ -231,8 +228,6 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the multivalued property to compare against
      * @param mixed $operand The value to compare with
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a single-valued property
      */
     public function contains($propertyName, $operand)
     {
@@ -241,8 +236,6 @@ class CallbackQuery implements QueryInterface
 
     /**
      * @param string $propertyName The name of the multivalued property to compare against
-     * @return boolean
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a single-valued property
      */
     public function isEmpty($propertyName)
     {
@@ -252,8 +245,6 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with, multivalued
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property
      */
     public function in($propertyName, $operand)
     {
@@ -263,8 +254,6 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function lessThan($propertyName, $operand)
     {
@@ -274,8 +263,6 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function lessThanOrEqual($propertyName, $operand)
     {
@@ -285,8 +272,6 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function greaterThan($propertyName, $operand)
     {
@@ -296,8 +281,6 @@ class CallbackQuery implements QueryInterface
     /**
      * @param string $propertyName The name of the property to compare against
      * @param mixed $operand The value to compare with
-     * @return object
-     * @throws \Neos\Flow\Persistence\Exception\InvalidQueryException if used on a multi-valued property or with a non-literal/non-DateTime operand
      */
     public function greaterThanOrEqual($propertyName, $operand)
     {
@@ -306,7 +289,6 @@ class CallbackQuery implements QueryInterface
 
     /**
      * @param boolean $distinct
-     * @return QueryInterface
      */
     public function setDistinct($distinct = true)
     {
@@ -314,7 +296,6 @@ class CallbackQuery implements QueryInterface
     }
 
     /**
-     * @return boolean
      */
     public function isDistinct()
     {

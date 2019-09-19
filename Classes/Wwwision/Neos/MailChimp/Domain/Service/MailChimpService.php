@@ -3,10 +3,10 @@ namespace Wwwision\Neos\MailChimp\Domain\Service;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Http\Client\RequestEngineInterface;
-use Neos\Flow\Http\Request;
-use Neos\Flow\Http\Uri;
-use Neos\Flow\Persistence\QueryInterface;
+use Neos\Flow\Http\Exception as HttpException;
 use Neos\Flow\Persistence\QueryResultInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Wwwision\Neos\MailChimp\Domain\Dto\CallbackQuery;
 use Wwwision\Neos\MailChimp\Domain\Dto\CallbackQueryResult;
 use Wwwision\Neos\MailChimp\Exception\InvalidApiKeyException;
@@ -35,6 +35,18 @@ class MailChimpService
      * @var string
      */
     private $apiEndpoint;
+
+    /**
+     * @Flow\Inject
+     * @var UriFactoryInterface
+     */
+    protected $uriFactory;
+
+    /**
+     * @Flow\Inject
+     * @var ServerRequestFactoryInterface
+     */
+    protected $serverRequestFactory;
 
     /**
      * @param string $apiKey MailChimp API key
@@ -185,24 +197,24 @@ class MailChimpService
      * @param string $resource The REST resource name (e.g. "lists")
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array The decoded response
-     * @throws MailChimpException
+     * @throws MailChimpException | HttpException
      */
     private function makeRequest($method, $resource, array $arguments = null)
     {
-        $uri = new Uri($this->apiEndpoint . '/' . $resource);
+        $uri = $this->uriFactory->createUri($this->apiEndpoint . '/' . $resource);
         if ($method === 'GET' && $arguments !== null) {
-            $uri->setQuery(http_build_query($arguments));
+            $uri = $uri->withQuery(http_build_query($arguments));
         }
-        $request = Request::create($uri, $method);
-        $request->setHeader('Accept', 'application/vnd.api+json');
-        $request->setHeader('Content-Type', 'application/vnd.api+json');
-        $request->setHeader('Authorization', 'apikey ' . $this->apiKey);
+        $request = $this->serverRequestFactory->createServerRequest($method, $uri)
+            ->withHeader('Accept', 'application/vnd.api+json')
+            ->withHeader('Content-Type', 'application/vnd.api+json')
+            ->withHeader('Authorization', 'apikey ' . $this->apiKey);
         if ($method !== 'GET' && $arguments !== null) {
-            $request->setContent(json_encode($arguments));
+            $request = $request->withParsedBody($arguments);
         }
 
         $response = $this->requestEngine->sendRequest($request);
-        $decodedBody = json_decode($response->getContent(), true);
+        $decodedBody = json_decode($response->getBody()->getContents(), true);
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return $decodedBody;
         }

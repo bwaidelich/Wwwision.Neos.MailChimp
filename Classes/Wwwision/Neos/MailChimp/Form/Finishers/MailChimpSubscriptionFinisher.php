@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace Wwwision\Neos\MailChimp\Form\Finishers;
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Utility\ObjectAccess;
 use Neos\Form\Core\Model\AbstractFinisher;
 use Neos\Form\Exception\FinisherException;
+use Neos\Utility\ObjectAccess;
 use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
 use Wwwision\Neos\MailChimp\Exception\MailChimpException;
 
@@ -13,7 +15,6 @@ use Wwwision\Neos\MailChimp\Exception\MailChimpException;
  */
 class MailChimpSubscriptionFinisher extends AbstractFinisher
 {
-
     /**
      * @Flow\Inject
      * @var MailChimpService
@@ -31,10 +32,11 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
 
     /**
      * Executes this finisher
-     * @see AbstractFinisher::execute()
      *
      * @return void
      * @throws FinisherException
+     * @throws \Neos\Flow\Http\Exception
+     * @see AbstractFinisher::execute()
      */
     protected function executeInternal()
     {
@@ -52,8 +54,8 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
     /**
      * Recursively replaces "{<var>}" with variables from the form runtime
      *
-     * @param array|mixed $field
-     * @return array|mixed
+     * @param array|string|null $field
+     * @return array|string|null
      */
     protected function replacePlaceholders($field)
     {

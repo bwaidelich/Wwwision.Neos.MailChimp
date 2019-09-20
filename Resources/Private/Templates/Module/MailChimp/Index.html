@@ -17,14 +17,14 @@
 						</thead>
 						<f:for each="{paginatedLists}" as="list">
 							<tr>
-								<td><i class="icon-user icon-bullhorn"></i> <f:link.action action="list" arguments="{listId: list.id}">{list.name}</f:link.action></td>
+								<td><i class="fa fa-bullhorn"></i> <f:link.action action="list" arguments="{listId: list.id}">{list.name}</f:link.action></td>
 								<td>{list.stats.member_count}</td>
 								<td>{list.date_created}</td>
 								<td>{list.list_rating}</td>
 								<td class="neos-action">
 									<div class="neos-pull-right">
 										<f:link.action action="list" arguments="{listId: list.id}" class="neos-button neos-button-primary" title="View list details">
-											<i class="icon-info-sign icon-white"></i>
+											<i class="fa fa-info fa-white"></i>
 										</f:link.action>
 									</div>
 								</td>

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Wwwision\Neos\MailChimp\Validation\Validator;
 
 use Neos\Flow\Annotations as Flow;
@@ -13,7 +15,6 @@ use Wwwision\Neos\MailChimp\Domain\Service\MailChimpService;
  */
 class UniqueSubscriptionValidator extends EmailAddressValidator
 {
-
     /**
      * @Flow\Inject
      * @var MailChimpService
@@ -23,15 +24,17 @@ class UniqueSubscriptionValidator extends EmailAddressValidator
     /**
      * @var array
      */
-    protected $supportedOptions = array(
-        'listId' => array(NULL, 'MailChimp List ID', 'string', TRUE)
-    );
+    protected $supportedOptions = [
+        'listId' => [null, 'MailChimp List ID', 'string', true]
+    ];
 
     /**
      * Checks if the given value is a valid email address.
      *
      * @param mixed $value The value that should be validated
      * @return void
+     * @throws \Neos\Flow\Http\Exception
+     * @throws \Wwwision\Neos\MailChimp\Exception\MailChimpException
      * @api
      */
     protected function isValid($value)

@@ -5,6 +5,7 @@ namespace Wwwision\Neos\MailChimp\Domain\Service;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Http\Client\RequestEngineInterface;
+use Neos\Flow\Http\ContentStream;
 use Neos\Flow\Http\Exception as HttpException;
 use Neos\Flow\Persistence\QueryResultInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -208,7 +209,7 @@ class MailChimpService
             ->withHeader('Content-Type', 'application/vnd.api+json')
             ->withHeader('Authorization', 'apikey ' . $this->apiKey);
         if ($method !== 'GET' && $arguments !== null) {
-            $request = $request->withParsedBody($arguments);
+            $request = $request->withBody(ContentStream::fromContents(json_encode($arguments)));
         }
 
         $response = $this->requestEngine->sendRequest($request);

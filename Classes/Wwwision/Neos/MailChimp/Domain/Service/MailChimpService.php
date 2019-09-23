@@ -165,7 +165,7 @@ class MailChimpService
     public function unsubscribe(string $listId, string $emailAddress): void
     {
         $subscriberHash = md5(strtolower($emailAddress));
-        $this->patch("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'status' => 'unsubscribed']);
+        $this->put("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'status' => 'unsubscribed']);
     }
 
     /**
@@ -186,17 +186,6 @@ class MailChimpService
      * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
     private function put(string $resource, array $arguments = null): array
-    {
-        return $this->makeRequest('PUT', $resource, $arguments);
-    }
-
-    /**
-     * @param string $resource The REST resource name (e.g. "lists")
-     * @param array|null $arguments Arguments to be send to the API endpoint
-     * @return array
-     * @throws HttpException | MailChimpException | ResourceNotFoundException
-     */
-    private function patch(string $resource, array $arguments = null): array
     {
         return $this->makeRequest('PUT', $resource, $arguments);
     }

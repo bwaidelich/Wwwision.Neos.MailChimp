@@ -1,12 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace Wwwision\Neos\MailChimp\Domain\Service;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Http\Client\RequestEngineInterface;
-use Neos\Flow\Http\Request;
-use Neos\Flow\Http\Uri;
-use Neos\Flow\Persistence\QueryInterface;
+use Neos\Flow\Http\ContentStream;
+use Neos\Flow\Http\Exception as HttpException;
 use Neos\Flow\Persistence\QueryResultInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Wwwision\Neos\MailChimp\Domain\Dto\CallbackQuery;
 use Wwwision\Neos\MailChimp\Domain\Dto\CallbackQueryResult;
 use Wwwision\Neos\MailChimp\Exception\InvalidApiKeyException;
@@ -20,7 +23,6 @@ use Wwwision\Neos\MailChimp\Exception\ResourceNotFoundException;
  */
 class MailChimpService
 {
-
     /**
      * @var RequestEngineInterface
      */
@@ -37,11 +39,23 @@ class MailChimpService
     private $apiEndpoint;
 
     /**
+     * @Flow\Inject
+     * @var UriFactoryInterface
+     */
+    protected $uriFactory;
+
+    /**
+     * @Flow\Inject
+     * @var ServerRequestFactoryInterface
+     */
+    protected $serverRequestFactory;
+
+    /**
      * @param string $apiKey MailChimp API key
      * @param RequestEngineInterface $requestEngine
      * @throws InvalidApiKeyException
      */
-    public function __construct($apiKey, RequestEngineInterface $requestEngine)
+    public function __construct(string $apiKey, RequestEngineInterface $requestEngine)
     {
         $this->apiKey = $apiKey;
         $this->requestEngine = $requestEngine;
@@ -49,14 +63,14 @@ class MailChimpService
         if (strpos($this->apiKey, '-') === false) {
             throw new InvalidApiKeyException(sprintf('Invalid MailChimp API key %s supplied.', $apiKey), 1483531773);
         }
-        list(, $dataCenter) = explode('-', $this->apiKey);
-        $this->apiEndpoint  = sprintf('https://%s.api.mailchimp.com/3.0', $dataCenter);
+        [, $dataCenter] = explode('-', $this->apiKey);
+        $this->apiEndpoint = sprintf('https://%s.api.mailchimp.com/3.0', $dataCenter);
     }
 
     /**
      * @return CallbackQueryResult|QueryResultInterface
      */
-    public function getLists()
+    public function getLists(): CallbackQueryResult
     {
         $query = new CallbackQuery(function () {
             $lists = $this->get('lists');
@@ -68,8 +82,9 @@ class MailChimpService
     /**
      * @param string $listId
      * @return array
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    public function getListById($listId)
+    public function getListById(string $listId): array
     {
         return $this->get("lists/$listId");
     }
@@ -78,7 +93,7 @@ class MailChimpService
      * @param string $listId
      * @return CallbackQueryResult|QueryResultInterface
      */
-    public function getMembersByListId($listId)
+    public function getMembersByListId(string $listId)
     {
         $memberQuery = new CallbackQuery(function (CallbackQuery $query) use ($listId) {
             $members = $this->get("lists/$listId/members", ['offset' => $query->getOffset(), 'count' => $query->getLimit()]);
@@ -94,8 +109,9 @@ class MailChimpService
      * @param string $listId
      * @param string $emailAddress
      * @return boolean
+     * @throws HttpException | MailChimpException
      */
-    public function isMember($listId, $emailAddress)
+    public function isMember(string $listId, string $emailAddress): ?bool
     {
         try {
             $member = $this->getMemberInfo($listId, $emailAddress);
@@ -109,8 +125,9 @@ class MailChimpService
      * @param string $listId
      * @param string $emailAddress
      * @return array
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    public function getMemberInfo($listId, $emailAddress)
+    public function getMemberInfo(string $listId, string $emailAddress): array
     {
         $subscriberHash = md5(strtolower($emailAddress));
         return $this->get("lists/$listId/members/$subscriberHash");
@@ -122,8 +139,9 @@ class MailChimpService
      * @param array $additionalFields
      * @param array $marketingPermissions
      * @return void
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    public function subscribe($listId, $emailAddress, array $additionalFields = null, array $marketingPermissions = null)
+    public function subscribe(string $listId, string $emailAddress, array $additionalFields = null, array $marketingPermissions = null): void
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $arguments = [
@@ -143,19 +161,21 @@ class MailChimpService
      * @param string $listId
      * @param string $emailAddress
      * @return void
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    public function unsubscribe($listId, $emailAddress)
+    public function unsubscribe(string $listId, string $emailAddress): void
     {
         $subscriberHash = md5(strtolower($emailAddress));
-        $this->patch("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'status' => 'unsubscribed']);
+        $this->put("lists/$listId/members/$subscriberHash", ['email_address' => $emailAddress, 'status' => 'unsubscribed']);
     }
 
     /**
      * @param string $resource The REST resource name (e.g. "lists")
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    private function get($resource, array $arguments = null)
+    private function get(string $resource, array $arguments = null): array
     {
         return $this->makeRequest('GET', $resource, $arguments);
     }
@@ -164,18 +184,9 @@ class MailChimpService
      * @param string $resource The REST resource name (e.g. "lists")
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    private function put($resource, array $arguments = null)
-    {
-        return $this->makeRequest('PUT', $resource, $arguments);
-    }
-
-    /**
-     * @param string $resource The REST resource name (e.g. "lists")
-     * @param array|null $arguments Arguments to be send to the API endpoint
-     * @return array
-     */
-    private function patch($resource, array $arguments = null)
+    private function put(string $resource, array $arguments = null): array
     {
         return $this->makeRequest('PUT', $resource, $arguments);
     }
@@ -185,28 +196,28 @@ class MailChimpService
      * @param string $resource The REST resource name (e.g. "lists")
      * @param array|null $arguments Arguments to be send to the API endpoint
      * @return array The decoded response
-     * @throws MailChimpException
+     * @throws ResourceNotFoundException | MailChimpException | HttpException
      */
-    private function makeRequest($method, $resource, array $arguments = null)
+    private function makeRequest(string $method, string $resource, array $arguments = null): array
     {
-        $uri = new Uri($this->apiEndpoint . '/' . $resource);
+        $uri = $this->uriFactory->createUri($this->apiEndpoint . '/' . $resource);
         if ($method === 'GET' && $arguments !== null) {
-            $uri->setQuery(http_build_query($arguments));
+            $uri = $uri->withQuery(http_build_query($arguments));
         }
-        $request = Request::create($uri, $method);
-        $request->setHeader('Accept', 'application/vnd.api+json');
-        $request->setHeader('Content-Type', 'application/vnd.api+json');
-        $request->setHeader('Authorization', 'apikey ' . $this->apiKey);
+        $request = $this->serverRequestFactory->createServerRequest($method, $uri)
+            ->withHeader('Accept', 'application/vnd.api+json')
+            ->withHeader('Content-Type', 'application/vnd.api+json')
+            ->withHeader('Authorization', 'apikey ' . $this->apiKey);
         if ($method !== 'GET' && $arguments !== null) {
-            $request->setContent(json_encode($arguments));
+            $request = $request->withBody(ContentStream::fromContents(json_encode($arguments)));
         }
 
         $response = $this->requestEngine->sendRequest($request);
-        $decodedBody = json_decode($response->getContent(), true);
+        $decodedBody = json_decode($response->getBody()->getContents(), true);
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return $decodedBody;
         }
-        $errorMessage = isset($decodedBody['detail']) ? $decodedBody['detail'] : 'Unknown error';
+        $errorMessage = $decodedBody['detail'] ?? 'Unknown error';
         if ($response->getStatusCode() === 404) {
             throw new ResourceNotFoundException($errorMessage, 1483538558);
         }

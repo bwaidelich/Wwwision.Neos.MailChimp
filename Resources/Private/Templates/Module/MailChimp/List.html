@@ -40,13 +40,13 @@
 				</thead>
 				<f:for each="{paginatedMembers}" as="member">
 					<tr>
-						<td><i class="icon-user icon-user"></i> {member.email_address}</td>
+						<td><i class="fa fa-user"></i> {member.email_address}</td>
 						<td>{member.timestamp_signup}</td>
 						<td>{member.member_rating}</td>
 						<td class="neos-action">
 							<div class="neos-pull-right">
 								<button class="neos-button neos-button-danger" title="Click to unsubscribe this member" data-toggle="modal" href="#unsubscribe-modal-{member.id}">
-									<i class="icon-trash icon-white"></i>
+									<i class="fa fa-trash fa-white"></i>
 								</button>
 								<div class="neos-hide" id="unsubscribe-modal-{member.id}">
 									<div class="neos-modal">
@@ -81,7 +81,7 @@
 	<div class="neos-footer">
 		<f:link.action action="index" class="neos-button">Back</f:link.action>
 		<button class="neos-button neos-button-primary" title="Click here to delete this user" data-toggle="modal" href="#subscribe-modal">
-			<i class="icon-plus icon-white"></i> Subscribe new member
+			<i class="fa fa-plus fa-white"></i> Subscribe new member
 		</button>
 		<div class="neos-hide" id="subscribe-modal">
 			<div class="neos-modal">

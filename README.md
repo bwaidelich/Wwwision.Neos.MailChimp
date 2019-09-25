@@ -17,7 +17,7 @@ Usage
 Install this package and make sure to resolve all dependencies.
 The easiest way to install this package is to use [composer](https://getcomposer.org/) by adding
 ```json
-"wwwision/neos-mailchimp": "^5.0"
+"wwwision/neos-mailchimp": "^5.2"
 ```
 to your Site package (or whichever package that uses the module or service) and install it and its dependencies via `composer install`.
 

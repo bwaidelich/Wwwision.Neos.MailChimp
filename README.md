@@ -30,7 +30,7 @@ Wwwision:
       apiKey: '<VALID_MAILCHIMP_API_KEY>'
 ```
 
-**Note:** The API key can be obtained from `mailchimp.com > Account > Extras > API Key`
+**Note:** The API key can be obtained from `mailchimp.com > Account > Extras > API keys`
 
 Done. You can now log-in to the Neos backend (as administrator) and manage your newsletter lists and recipients in the new Module `administration/mailchimp` (Make sure to flush the browser caches if the module should not appear in the menu).
 
@@ -105,7 +105,7 @@ finishers:
     -
         identifier: 'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher'
         options:
-            listId: '<MAILCHIMP-LIST-ID>'
+            listId: '<MAILCHIMP-AUDIENCE-ID>'
             additionalFields:
               'FNAME': '{firstName}'
               'LNAME': '{lastName}'
@@ -117,8 +117,7 @@ renderingOptions:
     submitButtonLabel: ''
 ```
 
-**Note:** Replace the two "\<MAILCHIMP-LIST-ID\>" with a valid list identifier that can be obtained from `mailchimp.com > Lists > <YOUR-LIST> > Settings > List name & defaults`. A list ID usually contains letters and numbers such as "d2a96c360f".
-
+**Note:** Replace the two "\<MAILCHIMP-AUDIENCE-ID\>" with a valid audience (list) identifier that can be obtained from `mailchimp.com > Audience > <YOUR-AUDIENCE> > Settings > Audience name & defaults`. An Audience ID usually contains numbers such as "1243568790".
 
 The `additionalFields` option can be nested, for example in order to specify interest groups:
 
@@ -128,7 +127,7 @@ finishers:
     -
         identifier: 'Wwwision.Neos.MailChimp:MailChimpSubscriptionFinisher'
         options:
-            listId: '<MAILCHIMP-LIST-ID>'
+            listId: '<MAILCHIMP-AUDIENCE-ID>'
             additionalFields:
               'FNAME': '{firstName}'
               'LNAME': '{lastName}'

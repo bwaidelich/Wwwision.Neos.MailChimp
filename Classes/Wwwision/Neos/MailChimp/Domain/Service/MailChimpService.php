@@ -97,10 +97,15 @@ class MailChimpService
     {
         $memberQuery = new CallbackQuery(function (CallbackQuery $query) use ($listId) {
             $members = $this->get("lists/$listId/members", ['offset' => $query->getOffset(), 'count' => $query->getLimit()]);
-            return $members['members'];
+            return array_filter(
+                $members['members'],
+                static function (array $member) {
+                    return $member['status'] === 'subscribed';
+                }
+            );
         }, function () use ($listId) {
-            $members = $this->get("lists/$listId/members", ['count' => 0]);
-            return (integer)$members['total_items'];
+            $list = $this->get("lists/$listId");
+            return (integer)$list['stats']['member_count'];
         });
         return $memberQuery->execute();
     }

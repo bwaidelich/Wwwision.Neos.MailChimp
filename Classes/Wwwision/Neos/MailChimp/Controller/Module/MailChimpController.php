@@ -81,7 +81,7 @@ class MailChimpController extends AbstractModuleController
             $this->addFlashMessage('An error occurred while trying to unsubscribe the email "%s" from list "%s": "%s"', 'Error', Message::SEVERITY_ERROR, [$emailAddress, $list['name'], $exception->getMessage()]);
             $this->redirect('list', null, null, ['listId' => $list['id']]);
         }
-        $this->addFlashMessage('Unsubscribed email "%s" from list "%s". Note: A goodbye-mail was sent to the user!', 'Success!', Message::SEVERITY_NOTICE, [$emailAddress, $list['name']]);
+        $this->addFlashMessage('Unsubscribed email "%s" from list "%s".', 'Success!', Message::SEVERITY_NOTICE, [$emailAddress, $list['name']]);
         $this->redirect('list', null, null, ['listId' => $list['id']]);
     }
 

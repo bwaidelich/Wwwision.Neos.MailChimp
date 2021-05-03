@@ -4,7 +4,7 @@
     "description": "Flow package that integrates MailChimp into your Neos site / Flow Application",
     "license": "GPL-3.0+",
     "require": {
-        "neos/neos": "^5.0"
+        "neos/neos": "^7.1"
     },
     "autoload": {
         "psr-0": {

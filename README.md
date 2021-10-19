@@ -15,11 +15,10 @@ Usage
 -----
 
 Install this package and make sure to resolve all dependencies.
-The easiest way to install this package is to use [composer](https://getcomposer.org/) by adding
+The easiest way to install this package is to use [composer](https://getcomposer.org/):
 ```json
-"wwwision/neos-mailchimp": "^5.2"
+composer require wwwision/neos-mailchimp
 ```
-to your Site package (or whichever package that uses the module or service) and install it and its dependencies via `composer install`.
 
 After successful installation make sure to configure the MailChimp® API key in the `Settings.yaml`of your Site package:
 

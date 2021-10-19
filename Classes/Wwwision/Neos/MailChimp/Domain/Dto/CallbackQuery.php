@@ -52,9 +52,9 @@ class CallbackQuery implements QueryInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
-        return null;
+        return '';
     }
 
     /**
@@ -63,7 +63,7 @@ class CallbackQuery implements QueryInterface
      * @param boolean $cacheResult If the result cache should be used
      * @return QueryResultInterface The query result
      */
-    public function execute($cacheResult = false)
+    public function execute($cacheResult = false): QueryResultInterface
     {
         return new CallbackQueryResult($this);
     }
@@ -81,7 +81,7 @@ class CallbackQuery implements QueryInterface
      *
      * @return integer The query result count
      */
-    public function count()
+    public function count(): int
     {
         if ($this->countCallback !== null) {
             return call_user_func_array($this->countCallback, [$this]);
@@ -99,7 +99,7 @@ class CallbackQuery implements QueryInterface
      * @param array $orderings The property names to order by
      * @return QueryInterface
      */
-    public function setOrderings(array $orderings)
+    public function setOrderings(array $orderings): QueryInterface
     {
         $this->orderings = $orderings;
         return $this;
@@ -114,7 +114,7 @@ class CallbackQuery implements QueryInterface
      *
      * @return array
      */
-    public function getOrderings()
+    public function getOrderings(): array
     {
         return $this->orderings;
     }
@@ -126,7 +126,7 @@ class CallbackQuery implements QueryInterface
      * @param integer $limit
      * @return QueryInterface
      */
-    public function setLimit($limit)
+    public function setLimit($limit): QueryInterface
     {
         $this->limit = $limit;
         return $this;
@@ -137,7 +137,7 @@ class CallbackQuery implements QueryInterface
      *
      * @return integer
      */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
@@ -149,7 +149,7 @@ class CallbackQuery implements QueryInterface
      * @param integer $offset
      * @return QueryInterface
      */
-    public function setOffset($offset)
+    public function setOffset($offset): QueryInterface
     {
         $this->offset = $offset;
         return $this;
@@ -160,7 +160,7 @@ class CallbackQuery implements QueryInterface
      *
      * @return integer
      */
-    public function getOffset()
+    public function getOffset(): ?int
     {
         return $this->offset;
     }
@@ -168,7 +168,7 @@ class CallbackQuery implements QueryInterface
     /**
      * @param object $constraint Some constraint, depending on the backend
      */
-    public function matching($constraint)
+    public function matching($constraint): QueryInterface
     {
         throw new \BadMethodCallException('This method is not implemented in this query implementation.');
     }
@@ -290,14 +290,14 @@ class CallbackQuery implements QueryInterface
     /**
      * @param boolean $distinct
      */
-    public function setDistinct($distinct = true)
+    public function setDistinct($distinct = true): QueryInterface
     {
         throw new \BadMethodCallException('This method is not implemented in this query implementation.');
     }
 
     /**
      */
-    public function isDistinct()
+    public function isDistinct(): bool
     {
         throw new \BadMethodCallException('This method is not implemented in this query implementation.');
     }

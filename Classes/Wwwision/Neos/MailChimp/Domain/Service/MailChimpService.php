@@ -146,7 +146,7 @@ class MailChimpService
      * @return void
      * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
-    public function subscribe(string $listId, string $emailAddress, array $additionalFields = null, array $marketingPermissions = null): void
+    public function subscribe(string $listId, string $emailAddress, array $additionalFields = null, array $marketingPermissions = null, array $interestGroups = null): void
     {
         $subscriberHash = md5(strtolower($emailAddress));
         $arguments = [
@@ -158,6 +158,9 @@ class MailChimpService
         }
         if ($marketingPermissions !== null) {
             $arguments['marketing_permissions'] = $marketingPermissions;
+        }
+        if ($interestGroups !== null) {
+            $arguments['interests'] = array_map(function() { return true; }, array_flip($interestGroups));
         }
         $this->put("lists/$listId/members/$subscriberHash", $arguments);
     }

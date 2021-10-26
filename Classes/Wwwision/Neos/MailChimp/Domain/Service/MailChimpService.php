@@ -143,6 +143,7 @@ class MailChimpService
      * @param string $emailAddress
      * @param array $additionalFields
      * @param array $marketingPermissions
+     * @param array $interestGroups
      * @return void
      * @throws HttpException | MailChimpException | ResourceNotFoundException
      */

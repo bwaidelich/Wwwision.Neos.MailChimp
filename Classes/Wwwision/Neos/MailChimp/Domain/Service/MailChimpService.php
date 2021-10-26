@@ -141,9 +141,9 @@ class MailChimpService
     /**
      * @param string $listId
      * @param string $emailAddress
-     * @param array $additionalFields
-     * @param array $marketingPermissions
-     * @param array $interestGroups
+     * @param array|null $additionalFields
+     * @param array|null $marketingPermissions
+     * @param array|null $interestGroups Array of IDs of interest groups to which the user wants to subscribe.
      * @return void
      * @throws HttpException | MailChimpException | ResourceNotFoundException
      */

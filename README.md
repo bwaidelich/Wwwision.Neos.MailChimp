@@ -16,7 +16,8 @@ Usage
 
 Install this package and make sure to resolve all dependencies.
 The easiest way to install this package is to use [composer](https://getcomposer.org/):
-```json
+
+```
 composer require wwwision/neos-mailchimp
 ```
 

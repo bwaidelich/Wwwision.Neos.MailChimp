@@ -45,10 +45,10 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
         $emailAddress = $this->parseOption('emailAddress');
 
         $additionalFields = $this->replacePlaceholders($this->parseOption('additionalFields'));
-        $interestGroups = array_filter(
-            $this->replacePlaceholders($this->parseOption('interestGroups')),
-            fn ($interestGroup) => $interestGroup !== false && $interestGroup !== ''
-        );
+        $interestGroupIds = $this->replacePlaceholders($this->parseOption('interestGroups'));
+
+        $interestGroups = is_array($interestGroupIds) ? $this->prepareInterestGroups($interestGroupIds) : null;
+
         try {
             $this->mailChimpService->subscribe($listId, $emailAddress, $additionalFields, null, $interestGroups);
         } catch (MailChimpException $exception) {
@@ -73,5 +73,18 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
         return preg_replace_callback('/{([^}]+)}/', function ($match) {
             return ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), $match[1]);
         }, $field);
+    }
+
+    /**
+     * Removes empty entries and formats the array with interestGroupId as key and "true" as value.
+     *
+     * @param array $interestGroupIds
+     * @return array
+     */
+    protected function prepareInterestGroups(array $interestGroupIds): array
+    {
+        $interestGroupIds = array_filter($interestGroupIds, fn ($interestGroup) => $interestGroup !== '');
+
+        return array_map(fn () => true, array_flip($interestGroupIds));
     }
 }

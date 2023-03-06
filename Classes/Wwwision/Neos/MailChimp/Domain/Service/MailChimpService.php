@@ -143,7 +143,8 @@ class MailChimpService
      * @param string $emailAddress
      * @param array|null $additionalFields
      * @param array|null $marketingPermissions
-     * @param array|null $interestGroups Array of IDs of interest groups to which the user wants to subscribe.
+     * @param array|null $interestGroups Array with IDs of interest groups to which the user wants to subscribe as keys.
+     *                                   Value needs to be "true" for subscribe or "false" for unsubscribe.
      * @return void
      * @throws HttpException | MailChimpException | ResourceNotFoundException
      */
@@ -161,7 +162,7 @@ class MailChimpService
             $arguments['marketing_permissions'] = $marketingPermissions;
         }
         if ($interestGroups !== null) {
-            $arguments['interests'] = array_map(function() { return true; }, array_flip($interestGroups));
+            $arguments['interests'] = $interestGroups;
         }
         $this->put("lists/$listId/members/$subscriberHash", $arguments);
     }

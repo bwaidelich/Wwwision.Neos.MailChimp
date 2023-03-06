@@ -143,7 +143,7 @@ class MailChimpService
      * @param string $emailAddress
      * @param array|null $additionalFields
      * @param array|null $marketingPermissions
-     * @param array|null $interestGroups Array with IDs of interest groups to which the user wants to subscribe as keys.
+     * @param array<string,bool>|null $interestGroups Array with IDs of interest groups to which the user wants to subscribe as keys.
      *                                   Value needs to be "true" for subscribe or "false" for unsubscribe.
      * @return void
      * @throws HttpException | MailChimpException | ResourceNotFoundException

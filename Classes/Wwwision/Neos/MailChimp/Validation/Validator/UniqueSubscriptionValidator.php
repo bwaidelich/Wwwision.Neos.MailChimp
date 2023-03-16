@@ -25,7 +25,9 @@ class UniqueSubscriptionValidator extends EmailAddressValidator
      * @var array
      */
     protected $supportedOptions = [
-        'listId' => [null, 'MailChimp List ID', 'string', true]
+        'listId' => [null, 'MailChimp List ID', 'string', true],
+        'strict' => [false, 'Whether to fail validation on RFC warnings', 'bool'],
+        'checkDns' => [false, 'Whether to use DNS checks', 'bool']
     ];
 
     /**

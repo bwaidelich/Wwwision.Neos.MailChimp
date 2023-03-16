@@ -119,7 +119,7 @@ renderingOptions:
 
 **Note:** Replace the two "\<MAILCHIMP-AUDIENCE-ID\>" with a valid audience (list) identifier that can be obtained from `mailchimp.com > Audience > <YOUR-AUDIENCE> > Settings > Audience name & defaults`. An Audience ID usually contains numbers such as "1243568790".
 
-The `additionalFields` option can be nested, for example in order to specify interest groups:
+With `interestGroups` option you can set fixed or dynamic interest groups for the user to subscribe to. 
 
 ```yaml
 # ...
@@ -131,10 +131,13 @@ finishers:
             additionalFields:
               'FNAME': '{firstName}'
               'LNAME': '{lastName}'
-              'groupings':
-                  -
-                      id: '12345'
-                      groups: ['Some group', 'Some other group']
+            interestGroups:
+              - 'abc123abc1'
+              - 'def123def1'
+              - '{interestGroups}' // Placeholder for single value fields (e.g. select box)
+              ...
+              - '{interestGroups.0}' // Placeholder for multi value fields (e.g. check boxes)
+              - '{interestGroups.1}' 
 ```
 
 The Form finisher can of course be used without Neos (i.e. for Newsletter-subscriptions within plain Flow applications).

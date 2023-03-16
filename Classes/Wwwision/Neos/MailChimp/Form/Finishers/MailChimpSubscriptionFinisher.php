@@ -27,7 +27,8 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
     protected $defaultOptions = [
         'listId' => '',
         'emailAddress' => '{email}',
-        'additionalFields' => null
+        'additionalFields' => null,
+        'interestGroups' => null,
     ];
 
     /**
@@ -44,8 +45,12 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
         $emailAddress = $this->parseOption('emailAddress');
 
         $additionalFields = $this->replacePlaceholders($this->parseOption('additionalFields'));
+        $interestGroupIds = $this->replacePlaceholders($this->parseOption('interestGroups'));
+
+        $interestGroups = is_array($interestGroupIds) ? $this->prepareInterestGroups($interestGroupIds) : null;
+
         try {
-            $this->mailChimpService->subscribe($listId, $emailAddress, $additionalFields);
+            $this->mailChimpService->subscribe($listId, $emailAddress, $additionalFields, null, $interestGroups);
         } catch (MailChimpException $exception) {
             throw new FinisherException(sprintf('Failed to subscribe "%s" to list "%s"!', $emailAddress, $listId), 1418060900, $exception);
         }
@@ -68,5 +73,18 @@ class MailChimpSubscriptionFinisher extends AbstractFinisher
         return preg_replace_callback('/{([^}]+)}/', function ($match) {
             return ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), $match[1]);
         }, $field);
+    }
+
+    /**
+     * Removes empty entries and formats the array with interestGroupId as key and "true" as value.
+     *
+     * @param array $interestGroupIds
+     * @return array
+     */
+    protected function prepareInterestGroups(array $interestGroupIds): array
+    {
+        $interestGroupIds = array_filter($interestGroupIds, fn ($interestGroup) => $interestGroup !== '');
+
+        return array_map(fn () => true, array_flip($interestGroupIds));
     }
 }

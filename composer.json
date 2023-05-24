@@ -97,7 +97,8 @@
             "Neos.NodeTypes-20190917101945",
             "Neos.NodeTypes-20200120114136",
             "Neos.Neos-20220318111600",
-            "Neos.Flow-20220318174300"
+            "Neos.Flow-20220318174300",
+            "Neos.Fusion-20220326120900"
         ]
     }
 }

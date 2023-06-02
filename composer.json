@@ -11,6 +11,16 @@
             "Wwwision\\Neos\\MailChimp": "Classes"
         }
     },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/bwaidelich"
+        },
+        {
+            "type": "paypal",
+            "url": "https://www.paypal.me/bwaidelich"
+        }
+    ],
     "extra": {
         "applied-flow-migrations": [
             "TYPO3.FLOW3-201201261636",

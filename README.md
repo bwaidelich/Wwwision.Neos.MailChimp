@@ -142,6 +142,69 @@ finishers:
 
 The Form finisher can of course be used without Neos (i.e. for Newsletter-subscriptions within plain Flow applications).
 
+DataSources
+-----------
+
+### Interest Categories
+
+Returns a list of all interest categories with ids and label in the subscription list.
+
+DataSourceIdentifier: `mailchimp-interest-category`
+
+dataSourceAdditionalData: 
+* `listId` - (string) Id of subscription list
+
+### Interests
+
+Returns a list of all interests with ids and label of the given category in the subscription list. 
+
+DataSourceIdentifier: `mailchimp-interest`
+
+dataSourceAdditionalData:
+* `listId` - (string) Id of subscription list
+* `categoryId` - (string) Id of interest category
+
+### Example NodeType configuration
+```yaml
+  ...
+  properties:
+    subscriptionList:
+      type: string
+      defaultValue: ''
+      ui:
+        label: Subscription list id
+    category:
+      type: string
+      defaultValue: ''
+      ui:
+        label: Category
+        inspector:
+          hidden: 'ClientEval:node.properties.subscriptionList != "" ? false : true'
+          editor: Neos.Neos/Inspector/Editors/SelectBoxEditor
+          editorOptions:
+            allowEmpty: true
+            dataSourceIdentifier: mailchimp-interest-category
+            dataSourceAdditionalData:
+              listId: ClientEval:node.properties.subscriptionList
+    interestId:
+      type: string
+      defaultValue: ''
+      ui:
+        label: Interest
+        inspector:
+          group: categories
+          hidden: 'ClientEval:node.properties.category != "" ? false : true'
+          editor: Neos.Neos/Inspector/Editors/SelectBoxEditor
+          editorOptions:
+            allowEmpty: true
+            dataSourceIdentifier: mailchimp-interest
+            dataSourceAdditionalData:
+              listId: ClientEval:node.properties.subscriptionList
+              categoryId: ClientEval:node.properties.category
+```
+
+
+
 Trivia
 ------
 

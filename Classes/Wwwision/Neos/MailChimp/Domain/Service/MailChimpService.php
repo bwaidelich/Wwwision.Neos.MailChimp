@@ -234,4 +234,24 @@ class MailChimpService
         throw new MailChimpException($errorMessage, 1483533997);
     }
 
+    /**
+     * @param string $listId
+     * @return array
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
+     */
+    public function getInterestCategoriesByList(string $listId): array
+    {
+        return $this->get("lists/$listId/interest-categories/");
+    }
+
+    /**
+     * @param string $listId
+     * @param string $categoryId
+     * @return array
+     * @throws HttpException | MailChimpException | ResourceNotFoundException
+     */
+    public function getInterestByListAndCategory(string $listId, string $categoryId): array
+    {
+        return $this->get("lists/$listId/interest-categories/$categoryId/interests");
+    }
 }
